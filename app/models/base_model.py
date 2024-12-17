@@ -42,17 +42,23 @@ class BaseModel(Base):
         return ins
     
     @classmethod
+    async def get_one(cls, db: AsyncSession, filters: dict, **kwargs):
+        res = await db.execute(select(cls).filter_by(**filters))
+        ins = res.scalar_one_or_none()
+        return ins
+    
+    @classmethod
     async def update(cls, db: AsyncSession, filters: dict, **kwargs):
         q = select(cls).filter_by(**filters)
         res = await db.execute(q)
         ins = res.scalar_one_or_none()
-
+        
         if not ins:
             return None
         
         for k, v in kwargs.items():
-            if hasattr(res, k):
-                setattr(res, v)
+            if hasattr(ins, k):
+                setattr(ins, k, v)
         await db.commit()
         await db.flush()
         return ins
