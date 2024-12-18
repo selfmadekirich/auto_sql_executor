@@ -26,8 +26,11 @@ class BaseModel(Base):
     )
 
     @classmethod
-    async def list(cls, db: AsyncSession):
-        res = await db.execute(select(cls))
+    async def list(cls, db: AsyncSession, filters: dict = None):
+        q = select(cls)
+        if filters:
+            q = q.filter_by(**filters)
+        res = await db.execute(q)
         return res.scalars().all()
     
     @classmethod

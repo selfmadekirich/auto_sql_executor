@@ -39,9 +39,9 @@ async def get_setting(connection_id: UUID, db=Depends(get_session)):
     return await get_db_connection(db, connection_id)
 
 
-@router.post("/db_connections/{connection_id}", tags=["admin"])
+@router.patch("/db_connections/{connection_id}", tags=["admin"])
 async def update_setting(
-    connection_id: UUID, 
+    connection_id: UUID,
     data: DbConnectionUpdateInput,
     db=Depends(get_session)
 ):

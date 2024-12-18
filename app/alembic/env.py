@@ -11,8 +11,7 @@ import models
 from dotenv import load_dotenv
 
 
-import models.base_model
-
+from models import base_model, db_connections, table_metadata
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 load_dotenv(os.path.join(BASE_DIR, '.env'))
@@ -33,7 +32,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = models.base_model.Base.metadata
+target_metadata = base_model.Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
