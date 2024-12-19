@@ -14,6 +14,7 @@ class ConnectionInfo(BaseModel):
     user: str
     password: str
     db_name: str
+    schema_name: str
 
 
 class DbConnectionResponse(BaseModel):

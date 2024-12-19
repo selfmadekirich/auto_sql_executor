@@ -78,5 +78,5 @@ async def delete_all_metadata(
     )
 
     for x in res:
-        db.delete(x)
-    db.commit()
+        await db.delete(x)
+    await db.commit()

@@ -46,14 +46,16 @@ class BaseModel(Base):
 
     @classmethod
     async def insert_all(cls, db: AsyncSession, objs: list):
+        res = []
         for obj in objs:
             ins = cls(**obj)
+            res.append(ins)
             db.add(ins)
 
         await db.flush()
 
         await db.commit()
-        return ins
+        return res
 
     @classmethod
     async def get_one(cls, db: AsyncSession, filters: dict, **kwargs):

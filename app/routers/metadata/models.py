@@ -6,8 +6,8 @@ from typing import Optional
 class ColumnProps(BaseModel):
     name: str
     type: str
-    nullable: str
-    comment: str
+    nullable: bool
+    comment: str | None
 
 
 class RefProps(BaseModel):
@@ -26,8 +26,8 @@ class TableMetadataResponse(BaseModel):
     table_name: str
     schema_name: str
     connection_id: uuid.UUID
-    comment: str
-    group: str
+    comment: str | None
+    group: str | None
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -35,9 +35,9 @@ class TableMetadataResponse(BaseModel):
 class TableMetadataInput(BaseModel):
     table_name: str
     schema_name: str
-    comment: str
+    comment: str | None
     connection_id: uuid.UUID
-    group: str
+    group: str | None
     json_props: TableProps
 
     model_config = ConfigDict(from_attributes=True)

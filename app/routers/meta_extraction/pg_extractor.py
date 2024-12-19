@@ -1,5 +1,5 @@
 from .base_extractor import MetaExtractor
-from .models import MetaExtractorConfig
+from .models import MetaExtractorConfig, ExtractorMetaTable
 from ..metadata.models import TableMetadataInput
 from sqlalchemy import create_engine, MetaData
 
@@ -13,7 +13,7 @@ class PgMetaExtractor(MetaExtractor):
             pool_pre_ping=True
         )
 
-        self.meta_data = MetaData()
+        self.meta_data = MetaData(schema=config.schema_name)
         self.meta_data.reflect(bind=self.engine)
 
     def _get_connection_uri(self) -> str:
@@ -29,6 +29,7 @@ class PgMetaExtractor(MetaExtractor):
         lst = []
         for t in tables:
             tables_info: dict = {}
+            tables_info["connection_id"] = self.config.connection_id
             tables_info["table_name"] = t
             tables_info["schema_name"] = tables[t].schema
             tables_info["comment"] = tables[t].comment
@@ -38,10 +39,13 @@ class PgMetaExtractor(MetaExtractor):
                 name = col.name
                 cols.append({
                     "name": name,
-                    "type": all_columns[name].type,
+                    "type": str(all_columns[name].type),
                     "nullable": all_columns[name].nullable,
                     "comment": all_columns[name].comment
                 })
-            tables_info["json_props"] = cols
-            lst.append(TableMetadataInput(**tables_info))
+            tables_info["json_props"] = {}
+            tables_info["json_props"]["columns"] = cols
+            lst.append(
+                ExtractorMetaTable(**tables_info).to_table_metadata_input()
+            )
         return lst

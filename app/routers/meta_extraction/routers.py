@@ -20,10 +20,10 @@ router = APIRouter()
 async def extract_metadata(connection_id, db=Depends(get_session)):
     conn = await get_db_connection(db, connection_id)
     m = MetaExtractorManager(conn)
-    #await delete_all_metadata(db, connection_id)
-    #data = m.extract()
-    #await insert_all_metadata(
-    #    db,
-    #    data
-    #)
+    await delete_all_metadata(db, connection_id)
+    data = m.extract()
+    await insert_all_metadata(
+        db,
+        data
+    )
     return OkResponse()
