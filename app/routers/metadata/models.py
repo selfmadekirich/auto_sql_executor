@@ -1,5 +1,6 @@
 from pydantic import BaseModel, ConfigDict
 import uuid
+from typing import Optional
 
 
 class ColumnProps(BaseModel):
@@ -16,7 +17,7 @@ class RefProps(BaseModel):
 
 class TableProps(BaseModel):
     columns: list[ColumnProps]
-    refs: list[RefProps] | None
+    refs: Optional[list[RefProps]]
 
 
 class TableMetadataResponse(BaseModel):

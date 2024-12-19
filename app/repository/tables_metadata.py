@@ -1,6 +1,6 @@
 from models.table_metadata import TableMetadata
 from sqlalchemy.ext.asyncio import AsyncSession
-from routers.admin.models import DbConnectionInput
+from routers.metadata.models import TableMetadataInput
 from uuid import UUID
 
 
@@ -25,16 +25,26 @@ async def get_metadata(
 
 async def insert_metadata(
     db: AsyncSession,
-    data: DbConnectionInput
+    data: TableMetadataInput
 ):
     return await TableMetadata.insert(
         db, **data.model_dump()
     )
 
 
+async def insert_all_metadata(
+        db: AsyncSession,
+        data: list[TableMetadataInput]
+):
+    return await TableMetadata.insert_all(
+        db,
+        [x.model_dump() for x in data]
+    )
+
+
 async def update_metadata(
         db: AsyncSession,
-        data: DbConnectionInput,
+        data: TableMetadataInput,
         id: UUID
 ):
     return await TableMetadata.update(
@@ -54,3 +64,19 @@ async def delete_metadata(
             "id": id
         }
     )
+
+
+async def delete_all_metadata(
+        db: AsyncSession,
+        connection_id: UUID
+):
+    res = await TableMetadata.list(
+        db,
+        filters={
+            "connection_id": connection_id
+        }
+    )
+
+    for x in res:
+        db.delete(x)
+    db.commit()

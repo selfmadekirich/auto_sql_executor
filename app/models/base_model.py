@@ -43,7 +43,18 @@ class BaseModel(Base):
         await db.commit()
         await db.refresh(ins)
         return ins
-    
+
+    @classmethod
+    async def insert_all(cls, db: AsyncSession, objs: list):
+        for obj in objs:
+            ins = cls(**obj)
+            db.add(ins)
+
+        await db.flush()
+
+        await db.commit()
+        return ins
+
     @classmethod
     async def get_one(cls, db: AsyncSession, filters: dict, **kwargs):
         res = await db.execute(select(cls).filter_by(**filters))

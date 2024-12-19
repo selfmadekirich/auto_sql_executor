@@ -13,6 +13,7 @@ class ConnectionInfo(BaseModel):
     port: int
     user: str
     password: str
+    db_name: str
 
 
 class DbConnectionResponse(BaseModel):
