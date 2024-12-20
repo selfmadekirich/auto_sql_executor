@@ -1,7 +1,7 @@
 from .base_extractor import MetaExtractor
 from .models import MetaExtractorConfig, ExtractorMetaTable
 from ..metadata.models import TableMetadataInput
-from sqlalchemy import create_engine, MetaData
+from sqlalchemy import create_engine, MetaData, text
 
 
 class PgMetaExtractor(MetaExtractor):
@@ -23,6 +23,11 @@ class PgMetaExtractor(MetaExtractor):
                 c.host, c.port,
                 c.db_name
         )
+
+    def execute_custom_sql(self, raw_sql: str) -> dict:
+        with self.engine.connect() as connection:
+            result = connection.execute(text(raw_sql))
+            return result.fetchall()
 
     def extract_meta(self) -> list[TableMetadataInput]:
         tables = self.meta_data.tables

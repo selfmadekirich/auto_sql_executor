@@ -3,6 +3,7 @@ from models.db_connections import DBConnections
 from ..metadata.models import TableMetadataInput, TableProps
 from uuid import UUID
 
+
 class MetaExtractorConfig(BaseModel):
     host: str
     port: str

@@ -1,0 +1,14 @@
+CREATE TABLE {{schema_name}}.{{table_name}}(
+{% for c in json_props.columns %}
+{{c.name}} {{c.type}} {% if c.nullable == false %} NOT {% endif %} NULL {% if not loop.last %},{% endif%}
+{% endfor %}
+);
+{%if comment and comment is not None%}
+COMMENT ON TABLE {{schema_name}}.{{table_name}} IS '{{comment}}'
+{%endif%}
+
+{% for c in json_props.columns %}
+{% if c.comment and c.comment is not None%}
+COMMENT ON COLUMN {{schema_name}}.{{table_name}}.{{c}} IS '{{c.comment}}'
+{%endif%}
+{%endfor%}
