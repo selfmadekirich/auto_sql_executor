@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 
 
 class MetaExtractor(ABC):
-    def __init__(self, config: MetaExtractorConfig):
+    def __init__(self, config: MetaExtractorConfig, reflect=True):
         self.config = config
         self._error_mes = "should be implemented in derived class"
 
@@ -13,5 +13,9 @@ class MetaExtractor(ABC):
         pass
     
     @abstractmethod
-    async def extract_meta(self) -> list[TableMetadataInput]:
+    def extract_meta(self) -> list[TableMetadataInput]:
+        pass
+
+    @abstractmethod
+    def execute_custom_sql(self, raw_sql: str) -> list[TableMetadataInput]:
         pass

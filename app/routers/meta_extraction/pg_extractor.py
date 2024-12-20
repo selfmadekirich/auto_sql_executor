@@ -5,7 +5,7 @@ from sqlalchemy import create_engine, MetaData, text
 
 
 class PgMetaExtractor(MetaExtractor):
-    def __init__(self, config: MetaExtractorConfig):
+    def __init__(self, config: MetaExtractorConfig, reflect=True):
         super().__init__(config)
         self.uri = self._get_connection_uri()
         self.engine = create_engine(
@@ -14,7 +14,8 @@ class PgMetaExtractor(MetaExtractor):
         )
 
         self.meta_data = MetaData(schema=config.schema_name)
-        self.meta_data.reflect(bind=self.engine)
+        if reflect:
+            self.meta_data.reflect(bind=self.engine)
 
     def _get_connection_uri(self) -> str:
         c = self.config
@@ -27,7 +28,10 @@ class PgMetaExtractor(MetaExtractor):
     def execute_custom_sql(self, raw_sql: str) -> dict:
         with self.engine.connect() as connection:
             result = connection.execute(text(raw_sql))
-            return result.fetchall()
+            return [x._asdict() for x in result.fetchall()]
+    
+    def _row2dict(self, row):
+        dict((col, getattr(row, col)) for col in row.__table__.columns.keys())
 
     def extract_meta(self) -> list[TableMetadataInput]:
         tables = self.meta_data.tables

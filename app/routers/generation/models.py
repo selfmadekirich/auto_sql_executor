@@ -13,4 +13,4 @@ class GenerationInfoOutput(BaseModel):
 
 class GenerationResultOutput(BaseModel):
     info: GenerationInfoOutput
-    result: dict
+    result: list[dict]
