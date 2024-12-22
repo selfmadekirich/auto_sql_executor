@@ -28,14 +28,10 @@ llm = HuggingFacePipeline.from_model_id(
     model_id=checkpoint,
     task='text2text-generation',
     model_kwargs={
-        "temperature": 0.45,
+        "temperature": 0.65,
         "min_length": 30,
-        "max_length": 350,
+        "max_length": 3500,
         "repetition_penalty": 5.0})
-
-template = """{text}"""
-prompt = PromptTemplate(template=template, input_variables=["text"])
-chat = LLMChain(prompt=prompt, llm=llm)
 
 
 @router.post(
@@ -43,6 +39,11 @@ chat = LLMChain(prompt=prompt, llm=llm)
         response_model=LaminiOutput,
         tags=["lamini"])
 def predict(input: LaminiInput):
+    prompt = PromptTemplate.from_template(
+        "Consider this information {info}. Generate SQL")
+    prompt.format(info=input.prompt)
+    chat = LLMChain(prompt=prompt, llm=llm)
     res = chat.run(input.query)
     result = copy.deepcopy(res)
+    print(result)
     return {"generated": result}
