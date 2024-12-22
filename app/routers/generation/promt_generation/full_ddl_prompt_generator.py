@@ -10,7 +10,7 @@ class FullDDLPromptGenerator(IPromptGenerator):
         self.template_name = "create_table.twig"
         self.prefix = """You are helpful assistant
         which generates SQL for PostgresSQL only"""
-        self.link = """Using this table structure"""
+        self.link = """These are tables structure"""
 
     def _get_templates_dir(self) -> str:
         return os.path.abspath(
@@ -21,7 +21,6 @@ class FullDDLPromptGenerator(IPromptGenerator):
         @params: user_query
         @params: tables_info
         """
-        user_query: str = kwargs.get("user_query")
         tables_data: list[BaseModel] = kwargs.get("tables_info")
         print("here")
         rendered_data = "\n".join(render(
@@ -29,4 +28,4 @@ class FullDDLPromptGenerator(IPromptGenerator):
             self.template_name,
             [x.model_dump() for x in tables_data]
         ))
-        return f"{self.prefix}\n{user_query}\n{self.link}\n{rendered_data}"
+        return f"{self.prefix}\n{self.link}\n{rendered_data}"

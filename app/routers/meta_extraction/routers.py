@@ -15,7 +15,7 @@ router = APIRouter()
 @router.post(
         "/extract_meta/{connection_id}",
         response_model=OkResponse,
-        tags=["Meta Extraction"]
+        tags=["meta extraction"]
 )
 async def extract_metadata(connection_id, db=Depends(get_session)):
     conn = await get_db_connection(db, connection_id)

@@ -9,6 +9,8 @@ class Settings(BaseSettings):
     DATABASE_HOST: str
     DATABASE_PORT: int
     APP_PORT: int
+    LLM_SERVICE_HOST: str
+    LLM_SERVICE_PORT: int
 
     model_config = SettingsConfigDict(env_file=".env")
 
