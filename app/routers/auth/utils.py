@@ -1,6 +1,6 @@
 from passlib.context import CryptContext
 from repository.users import get_user
-from .models import User, TokenData, Token
+from .models import TokenData, Token
 import jwt
 from jwt.exceptions import InvalidTokenError
 from datetime import datetime, timedelta, timezone

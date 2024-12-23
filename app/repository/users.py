@@ -1,7 +1,6 @@
 from models.user_model import User
 from sqlalchemy.ext.asyncio import AsyncSession
 from routers.auth.models import UserSingUp
-from uuid import UUID
 
 
 async def get_user(db: AsyncSession, username: str):
