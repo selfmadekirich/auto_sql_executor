@@ -21,3 +21,4 @@ async def get_session() -> AsyncSession:
             yield session
     except Exception as e:
         print(e)
+        raise e

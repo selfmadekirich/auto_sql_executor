@@ -11,6 +11,9 @@ class Settings(BaseSettings):
     APP_PORT: int
     LLM_SERVICE_HOST: str
     LLM_SERVICE_PORT: int
+    SECRET_KEY: str
+    ALGORITHM: str
+    ACCESS_TOKEN_EXPIRE_MINUTES: int
 
     model_config = SettingsConfigDict(env_file=".env")
 
