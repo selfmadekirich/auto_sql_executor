@@ -1,0 +1,10 @@
+test_cases:
+    test_1:
+        difficulty: 1
+        user_query: Выведи все видеоигры
+        correct_query:   select * from 
+                         video_games.game
+    test_2:
+        difficulty: 1
+        user_query: Выведи все игровые жанры
+        correct_query: select * from video_games.genre

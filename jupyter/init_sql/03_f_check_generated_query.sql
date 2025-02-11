@@ -1,5 +1,5 @@
-drop function if exists check_generated_query;
-CREATE OR REPLACE FUNCTION check_generated_query(correct_view text, generated_view text)
+drop function if exists f_check_generated_query;
+CREATE OR REPLACE FUNCTION f_check_generated_query(correct_view text, generated_view text)
 RETURNS jsonb AS
 $$
 declare 

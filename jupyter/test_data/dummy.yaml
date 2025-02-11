@@ -1,0 +1,2 @@
+test_1: select id from video_games.game
+test_2: select * from video_games.genre

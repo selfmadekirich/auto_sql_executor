@@ -1,4 +1,5 @@
-CREATE OR REPLACE FUNCTION get_column_hashes(table_name TEXT)
+drop function if exists f_get_column_hashes;
+CREATE OR REPLACE FUNCTION f_get_column_hashes(table_name TEXT)
 RETURNS TEXT[] AS
 $$
 DECLARE
