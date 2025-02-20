@@ -2,9 +2,333 @@ test_cases:
     test_1:
         difficulty: 1
         user_query: Выведи все видеоигры
-        correct_query:   select * from 
+        correct_query:   select game_name from 
                          video_games.game
     test_2:
         difficulty: 1
         user_query: Выведи все игровые жанры
-        correct_query: select * from video_games.genre
+        correct_query: select genre_name from video_games.genre
+    test_3:
+        difficulty: 1
+        user_query: Выведи всех производителей игр
+        correct_query: select publisher_name from video_games.publisher p
+    test_4:
+        difficulty: 1
+        user_query: Выведи все игровые платформы
+        co5rrect_query: select p.platform_name from video_games.platform p
+    test_5:
+        difficulty: 1
+        user_query: Выведи все бизнес регионы
+        correct_query: select r.region_name from video_games.region r
+    test_6:
+        difficulty: 2
+        user_query: Выведи все игровые жанры, которые начинаются на букву R
+        correct_query: select g.genre_name from video_games.genre g 
+                       where starts_with(g.genre_name,'R')
+    test_7:
+        difficulty: 2
+        user_query: Выведи информацию об игре с жанром, айди которого 8
+        correct_query: select g.game_name, g.genre_id from video_games.game g 
+                       where genre_id = 8
+    test_8:
+        difficulty: 2
+        user_query: Выведи все игры с жанром, айди которого больше 3, но меньше 10
+        correct_query: select g.game_name, g.genre_id from video_games.game g 
+                        where genre_id > 3 and genre_id < 10
+    test_9:
+        difficulty: 1
+        user_query: выведи общее количество игровых жанров
+        correct_query: select count(*) from video_games.genre g 
+    test_10:
+        difficulty: 1
+        user_query: выведи общее количество игр
+        correct_query: select count(*) from video_games.game g 
+    test_11:
+        difficulty: 1
+        user_query: выведи общее количество производителей игр
+        correct_query: select count(*) from video_games.publisher p 
+    test_12:
+        difficulty: 1
+        user_query: выведи общее количество игровых платформ
+        correct_query: select count(*) from video_games.platform p 
+    test_13:
+        difficulty: 1
+        user_query: выведи общее количество бизнес регионов 
+        correct_query: select count(*) from video_games.region r 
+    test_14:
+        difficulty: 1
+        user_query: выведи общее количество совершенных продаж
+        correct_query: select sum(rs.num_sales) from video_games.region_sales rs 
+    test_15:
+        difficulty: 1
+        user_query: выведи первый год выпуска игр
+        correct_query: select min(gp.release_year) from video_games.game_platform gp 
+    test_16:
+        difficulty: 1
+        user_query: выведи последний год выпуска игр
+        correct_query: select max(gp.release_year) from video_games.game_platform gp 
+    test_17:
+        difficulty: 2
+        user_query: выведи количество плафторм, начинающихся на PS
+        correct_query: select count(*) from video_games.platform p 
+                        where starts_with(upper(p.platform_name), 'PS') 
+    test_18:
+        difficulty: 2
+        user_query: выведи плафтормы, НЕ начинающиеся на W
+        correct_query: select p.platform_name from video_games.platform p 
+                        where not starts_with(upper(p.platform_name), 'W') 
+    test_19:
+        difficulty: 2
+        user_query: выведи игры, названия которых начинаются и заканчиваются на  одну и ту же букву
+        correct_query: select g.game_name from video_games.game g 
+                        where left(upper(g.game_name), 1) = right(upper(g.game_name), 1)
+    test_20:
+        difficulty: 2
+        user_query: выведи игры, названия которых состоят из 2 и более слов( слова разделены пробелами)
+        correct_query: select g.game_name from video_games.game g where strpos(g.game_name, ' ') > 0 
+    test_21:
+        difficulty: 1
+        user_query: выведи названия игр в лексикографическом порядке
+        correct_query: select g.game_name from video_games.game g order by g.game_name 
+    test_22:
+        difficulty: 1
+        user_query: выведи среднее количество игровых продаж
+        correct_query: select avg(rs.num_sales) from video_games.region_sales rs 
+    test_23:
+        difficulty: 1
+        user_query: выведи максимальное количество игровых продаж
+        correct_query: select max(rs.num_sales) from video_games.region_sales rs 
+    test_24:
+        difficulty: 1
+        user_query: выведи минимальное количество игровых продаж
+        correct_query: select min(rs.num_sales) from video_games.region_sales rs  
+    test_25:
+        difficulty: 3
+        user_query: выведи игры с их жанрами
+        correct_query: select g.game_name, g2.genre_name from video_games.game g 
+                        left join video_games.genre g2 on g.genre_id = g2.id 
+    test_26:
+        difficulty: 3
+        user_query: выведи производителей игр с играми, которые они сделали
+        correct_query: select p.publisher_name, g.game_name from video_games.publisher p
+                        left join video_games.game_publisher gp on p.id = gp.publisher_id 
+                        left join video_games.game g on gp.game_id = g.id  
+    test_27:
+        difficulty: 3
+        user_query: выведи производителей игр с играми и их жанрами, которые они сделали
+        correct_query: select p.publisher_name, g.game_name, g2.genre_name from video_games.publisher p
+                        left join video_games.game_publisher gp on p.id = gp.publisher_id 
+                        left join video_games.game g on gp.game_id = g.id 
+                        left join video_games.genre g2 on g.genre_id = g2.id 
+    test_28:
+        difficulty: 3
+        user_query: для каждой игры выведи платформу для которой она создавалась
+        correct_query: select g.game_name, p.platform_name from video_games.game g 
+                        left join video_games.game_publisher gp2 on g.id = gp2.game_id 
+                        left join video_games.game_platform gp on gp2.id = gp.game_publisher_id 
+                        left join video_games.platform p on gp.platform_id = p.id 
+    test_29:
+        difficulty: 3
+        user_query: для каждой игры выведи платформу для которой она создавалась с указанием года выпуска игры
+        correct_query: select g.game_name, p.platform_name, gp.release_year from video_games.game g 
+                        left join video_games.game_publisher gp2 on g.id = gp2.game_id 
+                        left join video_games.game_platform gp on gp2.id = gp.game_publisher_id 
+                        left join video_games.platform p on gp.platform_id = p.id 
+    test_30:
+        difficulty: 3
+        user_query: для каждой плафтормы выведи бизнес регион для которой она продавалась, убери дубли при необходимости
+        correct_query: select distinct p.platform_name, r.region_name from video_games.platform p 
+                        left join video_games.game_platform gp on p.id = gp.platform_id 
+                        left join video_games.region_sales rs on rs.game_platform_id = gp.id 
+                        left join video_games.region r on rs.region_id = r.id 
+    test_31:
+        difficulty: 3
+        user_query: выведи общее количество игровых продаж для каждого региона
+        correct_query: select r.region_name, sum(rs.num_sales) from video_games.region r 
+                        left join video_games.region_sales rs on r.id = rs.region_id 
+                        group by r.region_name 
+    test_32:
+        difficulty: 3
+        user_query: для каждого  региона, выведи год, в котором была выпущена самая первая игра
+        correct_query: select r.region_name , min(gp.release_year) from video_games.game_platform gp
+                        left join video_games.region_sales rs on rs.game_platform_id = gp.id
+                        left join video_games.region r on rs.region_id = r.id 
+                        group by r.region_name 
+    test_33:
+        difficulty: 3
+        user_query: для каждого производителя игр выведи платформы, для которых они производили игры, убери дубли при необходимости
+        correct_query: select distinct p.publisher_name, p2.platform_name from video_games.publisher p 
+                        left join video_games.game_publisher gp on p.id = gp.publisher_id 
+                        left join video_games.game_platform gp2 on gp.id = gp2.game_publisher_id 
+                        left join video_games.platform p2 on gp2.platform_id = p2.id 
+    test_34:
+        difficulty: 3
+        user_query: выведи все игры в жанре Fighting
+        correct_query: select  g.game_name 
+                        from video_games.game g 
+                        join video_games.genre g2 on g.genre_id = g2.id and g2.genre_name = 'Fighting'
+    test_35:
+        difficulty: 3
+        user_query: выведи все игры, которые не относятся к жанру Adventure
+        correct_query: select  g.game_name 
+                        from video_games.game g 
+                        join video_games.genre g2 on g.genre_id = g2.id and g2.genre_name <> 'Adventure'
+    test_36:
+        difficulty: 3
+        user_query: выведи все игры производителя 3DO 
+        correct_query: select g.game_name from video_games.game g 
+                        join video_games.game_publisher gp on g.id = gp.game_id 
+                        join video_games.publisher p on gp.publisher_id = p.id and p.publisher_name = '3DO'
+    test_37:
+        difficulty: 3
+        user_query: для каждой игровой платформы выведи год первой выпущенной игры на эту платформу
+        correct_query: select p.platform_name, min(gp.release_year) from video_games.platform p 
+                        left join video_games.game_platform gp on p.id = gp.platform_id 
+                        group by p.platform_name
+    test_38:
+        difficulty: 4
+        user_query: выведи жанр с наименьшим количеством игр.Гарантируется, что он такой один
+        correct_query: select g.genre_name , count(*) as cnt from video_games.genre g 
+                        left join video_games.game g2 on g.id = g2.genre_id 
+                        group by g.genre_name 
+                        order by cnt
+                        limit 1 
+    test_39:
+        difficulty: 4
+        user_query: выведи жанр с наибольшим количеством игр.Гарантируется, что он такой один
+        correct_query: select g.genre_name , count(*) as cnt from video_games.genre g 
+                        left join video_games.game g2 on g.id = g2.genre_id 
+                        group by g.genre_name 
+                        order by cnt desc
+                        limit 1 
+    test_40:
+        difficulty: 5
+        user_query: выведи регион с наибольшим количеством продаж для платформы PC. Гарантируется, что он такой один
+        correct_query: select r.region_name, sum(rs.num_sales) as sm from video_games.region r
+                        left join video_games.region_sales rs on r.id = rs.region_id 
+                        left join video_games.game_platform gp on gp.id = rs.game_platform_id 
+                        left join video_games.platform p on gp.platform_id = p.id 
+                        where upper(p.platform_name) = 'PC'
+                        group by r.region_name 
+                        order by sm desc
+                        limit 1
+    test_41:
+        difficulty: 5
+        user_query: выведи регион с наименьшим количеством продаж для платформ PS2,PS3. Гарантируется, что он такой один
+        correct_query: select r.region_name, sum(rs.num_sales) as sm from video_games.region r
+                        left join video_games.region_sales rs on r.id = rs.region_id 
+                        left join video_games.game_platform gp on gp.id = rs.game_platform_id 
+                        left join video_games.platform p on gp.platform_id = p.id 
+                        where upper(p.platform_name) in ('PS2', 'PS3')
+                        group by r.region_name 
+                        order by sm 
+                        limit 1
+    test_42:
+        difficulty: 6
+        user_query: выведи регионы,в которых была выпущена самая первая игра для PC
+        correct_query: with mn as(
+                        select rs.region_id, min(gp.release_year) as mnn from video_games.game_platform gp
+                        left join video_games.region_sales rs on rs.game_platform_id = gp.id
+                        left join video_games.platform p on gp.platform_id = p.id 
+                        where upper(p.platform_name) = 'PC' 
+                        group by rs.region_id 
+                        )
+                        select r.region_name from mn 
+                        left join video_games.region r on r.id = mn.region_id
+                        where mn.mnn = (select min(mnn) from mn)
+    test_43:
+        difficulty: 6
+        user_query: выведи жанры с наибольшим и с наименьшим количеством игр
+        correct_query: with cnt as (
+                        select genre_id, count(*) as c from video_games.game g 
+                        group by genre_id 
+                        )
+                        select g.genre_name from cnt
+                        left join video_games.genre g on cnt.genre_id = g.id
+                        where cnt.c = (select max(cnt.c) from cnt)
+                        union all 
+                        select g.genre_name from cnt
+                        left join video_games.genre g on cnt.genre_id = g.id
+                        where cnt.c = (select min(cnt.c) from cnt)
+
+    test_44:
+        difficulty: 6
+        user_query: выведи жанры с наибольшим и с наименьшим количеством игр  для платформы PC
+        correct_query: with cnt as (
+                        select genre_id, count(*) as c from video_games.game g 
+                        left join video_games.game_publisher gp on g.id = gp.game_id
+                        left join video_games.game_platform gp1 on gp1.game_publisher_id = gp.id
+                        left join video_games.platform p on gp1.platform_id = p.id
+                        where p.platform_name = 'PC'
+                        group by genre_id 
+                        )
+                        select g.genre_name from cnt
+                        left join video_games.genre g on cnt.genre_id = g.id
+                        where cnt.c = (select max(cnt.c) from cnt)
+                        union all 
+                        select g.genre_name from cnt
+                        left join video_games.genre g on cnt.genre_id = g.id
+                        where cnt.c = (select min(cnt.c) from cnt)
+    test_45:
+        difficulty: 4
+        user_query: выведи разницу в продаже игр по всем платформам между Europe и Japan регионом
+        correct_query: with all_sl as (
+                        select r.region_name, sum(rs.num_sales) as sm from video_games.region_sales rs 
+                        left join video_games.region r on r.id = rs.region_id
+                        group by r.region_name 
+                        )
+                        select (select sm from all_sl where region_name = 'Europe') -
+                        (select sm from all_sl where region_name = 'Japan')  as diff
+    test_46:
+        difficulty: 6
+        user_query: выведи регионы,в которых была выпущена самая первая игра для PC в жанре Fighting 
+        correct_query: with mn as(
+                        select rs.region_id, min(gp.release_year) as mnn from video_games.game_platform gp
+                        left join video_games.region_sales rs on rs.game_platform_id = gp.id
+                        left join video_games.platform p on gp.platform_id = p.id 
+                        left join video_games.game_publisher gpr on gpr.id = gp.game_publisher_id
+                        left join video_games.game g on gpr.game_id = g.id
+                        left join video_games.genre gg on gg.id = g.genre_id
+                        where upper(p.platform_name) = 'PC' and gg.genre_name = 'Fighting'
+                        group by rs.region_id 
+                        )
+                        select r.region_name from mn 
+                        left join video_games.region r on r.id = mn.region_id
+                        where mn.mnn = (select min(mnn) from mn)
+    test_47:
+        difficulty: 4
+        user_query: выведи производителей игр, которые выпустили больше всего игр
+        correct_query: with mx as (
+                        select publisher_id ,count(*) as cnt from video_games.game_publisher gp 
+                        group by publisher_id)
+                        select p.publisher_name from mx 
+                        join video_games.publisher p on p.id = mx.publisher_id
+                        where cnt = (select max(cnt) from mx)
+    test_48:
+        difficulty: 5
+        user_query: выведи производителя игр, который выпустил больше всего игр для PS2,PS3
+        correct_query: with mx as (
+                        select publisher_id ,count(*) as cnt from video_games.game_publisher gp 
+                        join video_games.game_platform gpt on gpt.game_publisher_id = gp.id
+                        join video_games.platform p2 on gpt.platform_id = p2.id and p2.platform_name in ('PS2', 'PS3')
+                        group by publisher_id)
+                        select p.publisher_name from mx 
+                        join video_games.publisher p on p.id = mx.publisher_id
+                        where cnt = (select max(cnt) from mx)
+    test_49:
+        difficulty: 4
+        user_query: выведи игровые платформы, для которых было выпущенно больше всего игр 
+        correct_query: with mx as (
+                        select platform_id, count(*) as cnt from video_games.game_platform gp 
+                        group by gp.platform_id)
+                        select p.platform_name from mx
+                        join video_games.platform p on p.id = mx.platform_id
+                        where mx.cnt = (select max(cnt) from mx)
+    test_50:
+        difficulty: 4
+        user_query: выведи игровые платформы, для которых было выпущенно меньше всего игр 
+        correct_query: select platform_id, count(*) as cnt from video_games.game_platform gp 
+                        group by gp.platform_id)
+                        select p.platform_name from mx
+                        join video_games.platform p on p.id = mx.platform_id
+                        where mx.cnt = (select min(cnt) from mx)
