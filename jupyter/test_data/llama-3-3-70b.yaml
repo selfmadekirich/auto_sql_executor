@@ -1,0 +1,115 @@
+test_1: SELECT * FROM video_games.game
+test_10: SELECT COUNT(id) FROM video_games.game
+test_11: SELECT COUNT(id) FROM video_games.publisher
+test_12: SELECT COUNT(id) FROM video_games.platform
+test_13: SELECT COUNT(*) FROM video_games.region
+test_14: SELECT SUM(num_sales) FROM video_games.region_sales
+test_15: SELECT MIN(release_year) FROM video_games.game_platform
+test_16: SELECT MAX(release_year) FROM video_games.game_platform
+test_17: SELECT COUNT(*) FROM video_games.platform WHERE platform_name LIKE 'PS%'
+test_18: SELECT platform_name FROM video_games.platform WHERE platform_name NOT LIKE
+  'W%'
+test_19: SELECT game_name FROM video_games.game WHERE game_name LIKE '%a' AND game_name
+  LIKE 'a%'
+test_2: SELECT * FROM video_games.genre
+test_20: SELECT game_name FROM video_games.game WHERE game_name LIKE '% %'
+test_21: SELECT game_name FROM video_games.game ORDER BY game_name ASC
+test_22: SELECT AVG(num_sales) FROM video_games.region_sales
+test_23: SELECT MAX(num_sales) FROM video_games.region_sales
+test_24: SELECT MIN(num_sales) FROM video_games.region_sales
+test_25: SELECT g.game_name, ge.genre_name FROM video_games.game g LEFT JOIN video_games.genre
+  ge ON g.genre_id = ge.id
+test_26: SELECT p.publisher_name, g.game_name FROM video_games.publisher p JOIN video_games.game_publisher
+  gp ON p.id = gp.publisher_id JOIN video_games.game g ON gp.game_id = g.id
+test_27: SELECT p.publisher_name, g.game_name, ge.genre_name FROM video_games.publisher
+  p JOIN video_games.game_publisher gp ON p.id = gp.publisher_id JOIN video_games.game
+  g ON gp.game_id = g.id JOIN video_games.genre ge ON g.genre_id = ge.id;
+test_28: SELECT g.game_name, p.platform_name FROM video_games.game g INNER JOIN video_games.game_platform
+  gp ON g.id = gp.game_publisher_id INNER JOIN video_games.platform p ON gp.platform_id
+  = p.id
+test_29: SELECT g.game_name, p.platform_name, gp.release_year FROM video_games.game
+  AS g LEFT JOIN video_games.game_platform AS gp ON g.id = gp.game_publisher_id LEFT
+  JOIN video_games.platform AS p ON gp.platform_id = p.id
+test_3: SELECT * FROM video_games.publisher
+test_30: SELECT DISTINCT p.platform_name, r.region_name FROM video_games.platform
+  p JOIN video_games.game_platform gp ON p.id = gp.platform_id JOIN video_games.region_sales
+  rs ON gp.id = rs.game_platform_id JOIN video_games.region r ON rs.region_id = r.id
+test_31: SELECT r.region_name, SUM(rs.num_sales) AS total_sales FROM video_games.region
+  r JOIN video_games.region_sales rs ON r.id = rs.region_id GROUP BY r.region_name
+  ORDER BY total_sales DESC;
+test_32: SELECT T1.region_name, MIN(T3.release_year) AS first_release_year FROM video_games.region
+  AS T1 INNER JOIN video_games.region_sales AS T2 ON T1.id = T2.region_id INNER JOIN
+  video_games.game_platform AS T3 ON T2.game_platform_id = T3.id GROUP BY T1.region_name
+test_33: SELECT DISTINCT p.publisher_name, pl.platform_name FROM video_games.publisher
+  p JOIN video_games.game_publisher gp ON p.id = gp.publisher_id JOIN video_games.game
+  g ON gp.game_id = g.id JOIN video_games.game_platform gp2 ON g.id = gp2.game_publisher_id
+  JOIN video_games.platform pl ON gp2.platform_id = pl.id
+test_34: SELECT g.game_name FROM video_games.game g JOIN video_games.genre ge ON g.genre_id
+  = ge.id WHERE ge.genre_name = 'Fighting';
+test_35: SELECT g.game_name FROM video_games.game g LEFT JOIN video_games.genre ge
+  ON g.genre_id = ge.id WHERE ge.genre_name != 'Adventure' OR ge.genre_name IS NULL
+test_36: SELECT g.game_name FROM video_games.game AS g JOIN video_games.game_publisher
+  AS gp ON g.id = gp.game_id JOIN video_games.publisher AS p ON gp.publisher_id =
+  p.id WHERE p.publisher_name = '3DO'
+test_37: SELECT p.platform_name, MIN(gp.release_year) as first_release_year FROM video_games.platform
+  p JOIN video_games.game_platform gp ON p.id = gp.platform_id GROUP BY p.platform_name
+test_38: SELECT T2.genre_name FROM video_games.game AS T1 INNER JOIN video_games.genre
+  AS T2 ON T1.genre_id = T2.id GROUP BY T2.genre_name ORDER BY COUNT(T1.id) LIMIT
+  1
+test_39: SELECT g.genre_name FROM video_games.genre g JOIN video_games.game gm ON
+  g.id = gm.genre_id GROUP BY g.genre_name ORDER BY COUNT(gm.id) DESC LIMIT 1
+test_4: SELECT * FROM video_games.platform
+test_40: SELECT r.region_name FROM video_games.region r JOIN video_games.region_sales
+  rs ON r.id = rs.region_id JOIN video_games.game_platform gp ON rs.game_platform_id
+  = gp.id JOIN video_games.platform p ON gp.platform_id = p.id WHERE p.platform_name
+  = 'PC' ORDER BY rs.num_sales DESC LIMIT 1
+test_41: SELECT T1.region_name FROM video_games.region AS T1 INNER JOIN video_games.region_sales
+  AS T2 ON T1.id = T2.region_id INNER JOIN video_games.game_platform AS T3 ON T2.game_platform_id
+  = T3.id INNER JOIN video_games.platform AS T4 ON T3.platform_id = T4.id WHERE T4.platform_name
+  IN ('PS2', 'PS3') ORDER BY T2.num_sales ASC LIMIT 1
+test_42: SELECT DISTINCT T3.region_name FROM video_games.platform AS T1 INNER JOIN
+  video_games.game_platform AS T2 ON T1.id = T2.platform_id INNER JOIN video_games.region
+  AS T3 ON T2.game_publisher_id = T3.id WHERE T1.platform_name = 'PC' ORDER BY T2.release_year
+  ASC LIMIT 1
+test_43: SELECT g.genre_name, COUNT(vg.id) FROM video_games.genre g LEFT JOIN video_games.game
+  vg ON g.id = vg.genre_id GROUP BY g.id, g.genre_name ORDER BY COUNT(vg.id) DESC
+  LIMIT 1 UNION ALL SELECT g.genre_name, COUNT(vg.id) FROM video_games.genre g LEFT
+  JOIN video_games.game vg ON g.id = vg.genre_id GROUP BY g.id, g.genre_name ORDER
+  BY COUNT(vg.id) ASC LIMIT 1
+test_44: WITH game_platforms AS ( SELECT gp.game_id, gp.platform_id FROM video_games.game_platform
+  gp WHERE gp.platform_id = ( SELECT id FROM video_games.platform WHERE platform_name
+  = 'PC' ) ), game_genres AS ( SELECT g.id, g.game_name, gen.id AS genre_id, gen.genre_name
+  FROM video_games.game g JOIN video_games.genre gen ON g.genre_id = gen.id ) SELECT
+  genre_name, COUNT(*) AS num_games FROM game_genres WHERE game_id IN ( SELECT game_id
+  FROM game_platforms ) GROUP BY genre_name ORDER BY num_games DESC LIMIT 1 UNION
+  ALL SELECT genre_name, COUNT(*) AS num_games FROM game_genres WHERE game_id IN (
+  SELECT game_id FROM game_platforms ) GROUP BY genre_name ORDER BY num_games ASC
+  LIMIT 1
+test_45: SELECT SUM(CASE WHEN r.region_name = 'Europe' THEN rs.num_sales ELSE 0 END)
+  - SUM(CASE WHEN r.region_name = 'Japan' THEN rs.num_sales ELSE 0 END) AS sales_diff
+  FROM video_games.region_sales rs JOIN video_games.region r ON rs.region_id = r.id
+test_46: SELECT DISTINCT t3.region_name FROM video_games.game AS t1 INNER JOIN video_games.game_platform
+  AS t2 ON t1.id = t2.game_publisher_id INNER JOIN video_games.region AS t3 ON t3.id
+  = t2.id INNER JOIN video_games.platform AS t4 ON t4.id = t2.platform_id INNER JOIN
+  video_games.genre AS t5 ON t5.id = t1.genre_id WHERE t4.platform_name = 'PC' AND
+  t5.genre_name = 'Fighting' ORDER BY t2.release_year ASC LIMIT 1
+test_47: SELECT p.publisher_name, COUNT(g.id) FROM video_games.publisher p JOIN video_games.game_publisher
+  gp ON p.id = gp.publisher_id JOIN video_games.game g ON gp.game_id = g.id GROUP
+  BY p.publisher_name ORDER BY COUNT(g.id) DESC LIMIT 1
+test_48: SELECT p.publisher_name, COUNT(gp.game_id) FROM video_games.game_platform
+  gp JOIN video_games.publisher p ON gp.game_publisher_id = p.id JOIN video_games.platform
+  pf ON gp.platform_id = pf.id WHERE pf.platform_name IN ('PS2', 'PS3') GROUP BY p.publisher_name
+  ORDER BY COUNT(gp.game_id) DESC LIMIT 1
+test_49: SELECT p.platform_name, COUNT(gp.id) as num_games FROM video_games.platform
+  p JOIN video_games.game_platform gp ON p.id = gp.platform_id GROUP BY p.platform_name
+  ORDER BY num_games DESC LIMIT 1
+test_5: SELECT region_name FROM video_games.region
+test_50: SELECT p.platform_name, COUNT(gp.id) FROM video_games.platform p LEFT JOIN
+  video_games.game_platform gp ON p.id = gp.platform_id GROUP BY p.platform_name ORDER
+  BY COUNT(gp.id) ASC LIMIT 1
+test_6: SELECT genre_name FROM video_games.genre WHERE genre_name ILIKE 'R%'
+test_7: SELECT g.game_name, ge.genre_name FROM video_games.game g JOIN video_games.genre
+  ge ON g.genre_id = ge.id WHERE g.genre_id = 8
+test_8: SELECT g.game_name, gen.genre_name FROM video_games.game g JOIN video_games.genre
+  gen ON g.genre_id = gen.id WHERE gen.id > 3 AND gen.id < 10
+test_9: SELECT COUNT(*) FROM video_games.genre

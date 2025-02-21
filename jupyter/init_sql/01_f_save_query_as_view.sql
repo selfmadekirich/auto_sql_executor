@@ -5,7 +5,7 @@ $$
 BEGIN
 	begin 
 
-        EXECUTE format('CREATE OR REPLACE VIEW %I as %s', view_name, sql_query);
+        EXECUTE format('DROP VIEW IF EXISTS %I;CREATE OR REPLACE VIEW %I as %s', view_name, view_name, sql_query);
 		return true;
 	exception 
 		when others then 

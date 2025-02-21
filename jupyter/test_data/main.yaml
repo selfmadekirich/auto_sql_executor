@@ -2,8 +2,8 @@ test_cases:
     test_1:
         difficulty: 1
         user_query: Выведи все видеоигры
-        correct_query:   select game_name from 
-                         video_games.game
+        correct_query: select game_name from 
+                        video_games.game
     test_2:
         difficulty: 1
         user_query: Выведи все игровые жанры
@@ -15,7 +15,7 @@ test_cases:
     test_4:
         difficulty: 1
         user_query: Выведи все игровые платформы
-        co5rrect_query: select p.platform_name from video_games.platform p
+        correct_query: select p.platform_name from video_games.platform p
     test_5:
         difficulty: 1
         user_query: Выведи все бизнес регионы
@@ -188,40 +188,40 @@ test_cases:
     test_38:
         difficulty: 4
         user_query: выведи жанр с наименьшим количеством игр.Гарантируется, что он такой один
-        correct_query: select g.genre_name , count(*) as cnt from video_games.genre g 
+        correct_query: select g.genre_name from video_games.genre g 
                         left join video_games.game g2 on g.id = g2.genre_id 
                         group by g.genre_name 
-                        order by cnt
+                        order by count(*)
                         limit 1 
     test_39:
         difficulty: 4
         user_query: выведи жанр с наибольшим количеством игр.Гарантируется, что он такой один
-        correct_query: select g.genre_name , count(*) as cnt from video_games.genre g 
+        correct_query: select g.genre_name from video_games.genre g 
                         left join video_games.game g2 on g.id = g2.genre_id 
                         group by g.genre_name 
-                        order by cnt desc
+                        order by count(*) desc
                         limit 1 
     test_40:
         difficulty: 5
         user_query: выведи регион с наибольшим количеством продаж для платформы PC. Гарантируется, что он такой один
-        correct_query: select r.region_name, sum(rs.num_sales) as sm from video_games.region r
+        correct_query: select r.region_name from video_games.region r
                         left join video_games.region_sales rs on r.id = rs.region_id 
                         left join video_games.game_platform gp on gp.id = rs.game_platform_id 
                         left join video_games.platform p on gp.platform_id = p.id 
                         where upper(p.platform_name) = 'PC'
                         group by r.region_name 
-                        order by sm desc
+                        order by sum(rs.num_sales) desc
                         limit 1
     test_41:
         difficulty: 5
         user_query: выведи регион с наименьшим количеством продаж для платформ PS2,PS3. Гарантируется, что он такой один
-        correct_query: select r.region_name, sum(rs.num_sales) as sm from video_games.region r
+        correct_query: select r.region_name from video_games.region r
                         left join video_games.region_sales rs on r.id = rs.region_id 
                         left join video_games.game_platform gp on gp.id = rs.game_platform_id 
                         left join video_games.platform p on gp.platform_id = p.id 
                         where upper(p.platform_name) in ('PS2', 'PS3')
                         group by r.region_name 
-                        order by sm 
+                        order by sum(rs.num_sales) 
                         limit 1
     test_42:
         difficulty: 6
@@ -327,7 +327,8 @@ test_cases:
     test_50:
         difficulty: 4
         user_query: выведи игровые платформы, для которых было выпущенно меньше всего игр 
-        correct_query: select platform_id, count(*) as cnt from video_games.game_platform gp 
+        correct_query: with mx as (
+                        select platform_id, count(*) as cnt from video_games.game_platform gp 
                         group by gp.platform_id)
                         select p.platform_name from mx
                         join video_games.platform p on p.id = mx.platform_id
