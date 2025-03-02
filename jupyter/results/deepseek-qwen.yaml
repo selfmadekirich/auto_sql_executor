@@ -19,7 +19,7 @@ test_14:
 test_15:
   reason: query not executable
   status: failed
-  processed_reason:
+  processed_reason: syntax_error
 test_16:
   reason: ''
   status: success
