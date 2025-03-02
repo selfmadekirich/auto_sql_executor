@@ -1,6 +1,7 @@
 test_1:
   reason: query not executable
   status: failed
+  processed_reason: syntax_error
 test_10:
   reason: ''
   status: success
@@ -19,30 +20,36 @@ test_14:
 test_15:
   reason: query not executable
   status: failed
+  processed_reason: forgot_schema
 test_16:
   reason: query not executable
   status: failed
+  processed_reason: forgot_schema
 test_17:
   reason: ''
   status: success
 test_18:
   reason: query not executable
   status: failed
+  processed_reason: syntax_error
 test_19:
   reason: rows count mismatch;execution results differs
   status: failed
+  processed_reason: logical_error
 test_2:
   reason: ''
   status: success
 test_20:
   reason: query not executable
   status: failed
+  processed_reason: forgot_schema
 test_21:
   reason: ''
   status: success
 test_22:
   reason: query not executable
   status: failed
+  processed_reason: forgot_schema
 test_23:
   reason: ''
   status: success
@@ -52,18 +59,22 @@ test_24:
 test_25:
   reason: query not executable
   status: failed
+  processed_reason: forgot_schema
 test_26:
   reason: query not executable
   status: failed
+  processed_reason: forgot_schema
 test_27:
   reason: ''
   status: success
 test_28:
   reason: query not executable
   status: failed
+  processed_reason: syntax_error
 test_29:
   reason: query not executable
   status: failed
+  processed_reason: syntax_error
 test_3:
   reason: ''
   status: success
@@ -73,24 +84,29 @@ test_30:
 test_31:
   reason: query not executable
   status: failed
+  processed_reason: forgot_schema
 test_32:
   reason: ''
   status: success
 test_33:
   reason: attribute count mismatch;rows count mismatch;execution results differs
   status: failed
+  processed_reason: logical_error
 test_34:
   reason: ''
   status: success
 test_35:
   reason: query not executable
   status: failed
+  processed_reason: forgot_schema
 test_36:
   reason: rows count mismatch;execution results differs
   status: failed
+  processed_reason: schema_understanding_error
 test_37:
   reason: attribute count mismatch;rows count mismatch;execution results differs
   status: failed
+  processed_reason: logical_error
 test_38:
   reason: ''
   status: success
@@ -109,39 +125,48 @@ test_41:
 test_42:
   reason: execution results differs
   status: failed
+  processed_reason: logical_error
 test_43:
   reason: query not executable
   status: failed
+  processed_reason: logical_error
 test_44:
   reason: query not executable
   status: failed
+  processed_reason: logical_error
 test_45:
   reason: query not executable
   status: failed
+  processed_reason: syntax_error
 test_46:
   reason: query not executable
   status: failed
+  processed_reason: syntax_error
 test_47:
   reason: ''
   status: success
 test_48:
   reason: query not executable
   status: failed
+  processed_reason: syntax_error
 test_49:
   reason: attribute count mismatch;rows count mismatch;execution results differs
   status: failed
+  processed_reason: logical_error
 test_5:
   reason: ''
   status: success
 test_50:
   reason: query not executable
   status: failed
+  processed_reason: syntax_error
 test_6:
   reason: ''
   status: success
 test_7:
   reason: execution results differs
   status: failed
+  processed_reason: logical_error
 test_8:
   reason: ''
   status: success

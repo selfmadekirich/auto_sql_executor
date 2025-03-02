@@ -16,6 +16,7 @@ test_13:
 test_14:
   reason: execution results differs
   status: failed
+  processed_reason: added_ordering
 test_15:
   reason: ''
   status: success
@@ -31,6 +32,7 @@ test_18:
 test_19:
   reason: rows count mismatch;execution results differs
   status: failed
+  processed_reason: logical_error
 test_2:
   reason: ''
   status: success
@@ -58,12 +60,15 @@ test_26:
 test_27:
   reason: execution results differs
   status: failed
+  processed_reason: schema_understanding_error
 test_28:
   reason: query not executable
   status: failed
+  processed_reason: schema_understanding_error
 test_29:
   reason: query not executable
   status: failed
+  processed_reason: schema_understanding_error
 test_3:
   reason: ''
   status: success
@@ -79,6 +84,7 @@ test_32:
 test_33:
   reason: query not executable
   status: failed
+  processed_reason: schema_understanding_error
 test_34:
   reason: ''
   status: success
@@ -106,27 +112,34 @@ test_40:
 test_41:
   reason: attribute count mismatch;execution results differs
   status: failed
+  processed_reason: logical_error
 test_42:
   reason: rows count mismatch;execution results differs
   status: failed
+  processed_reason: logical_error
 test_43:
   reason: query not executable
   status: failed
+  processed_reason: syntax_error
 test_44:
   reason: query not executable
   status: failed
+  processed_reason: syntax_error
 test_45:
   reason: attribute count mismatch;rows count mismatch;execution results differs
   status: failed
+  processed_reason: logical_error
 test_46:
   reason: query not executable
   status: failed
+  processed_reason: schema_understanding_error
 test_47:
   reason: ''
   status: success
 test_48:
   reason: query not executable
   status: failed
+  processed_reason: schema_understanding_error
 test_49:
   reason: ''
   status: success
@@ -136,15 +149,17 @@ test_5:
 test_50:
   reason: query not executable
   status: failed
+  processed_reason: schema_understanding_error
 test_6:
   reason: ''
   status: success
 test_7:
   reason: attribute count mismatch;execution results differs
   status: failed
+  processed_reason: logical_error
 test_8:
-  reason: attribute count mismatch;execution results differs
-  status: failed
+  reason: ''
+  status: success
 test_9:
   reason: ''
   status: success

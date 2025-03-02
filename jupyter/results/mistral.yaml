@@ -1,150 +1,171 @@
 test_1:
   reason: query not executable
   status: failed
+  processed_reason: forgot_schema
 test_10:
-  reason: query not executable
-  status: failed
+  reason: ''
+  status: success
 test_11:
-  reason: query not executable
-  status: failed
+  reason: ''
+  status: success
 test_12:
-  reason: query not executable
-  status: failed
+  reason: ''
+  status: success
 test_13:
-  reason: query not executable
-  status: failed
+  reason: ''
+  status: success
 test_14:
-  reason: query not executable
-  status: failed
+  reason: ''
+  status: success
 test_15:
-  reason: query not executable
-  status: failed
+  reason: ''
+  status: success
 test_16:
-  reason: query not executable
-  status: failed
+  reason: ''
+  status: success
 test_17:
-  reason: query not executable
-  status: failed
+  reason: ''
+  status: success
 test_18:
   reason: query not executable
   status: failed
+  processed_reason: forgot_schema
 test_19:
-  reason: query not executable
+  reason: attribute count mismatch;rows count mismatch;execution results differs
   status: failed
+  processed_reason: logical_error
 test_2:
-  reason: query not executable
-  status: failed
+  reason: ''
+  status: success
 test_20:
   reason: query not executable
   status: failed
+  processed_reason: syntax_error
 test_21:
-  reason: query not executable
-  status: failed
+  reason: ''
+  status: success
 test_22:
-  reason: query not executable
-  status: failed
+  reason: ''
+  status: success
 test_23:
-  reason: query not executable
+  reason: execution results differs
   status: failed
+  processed_reason: logical_error
 test_24:
-  reason: query not executable
-  status: failed
+  reason: ''
+  status: success
 test_25:
-  reason: query not executable
+  reason: rows count mismatch;execution results differs
   status: failed
+  processed_reason: schema_understanding_error
 test_26:
-  reason: query not executable
+  reason: attribute count mismatch;execution results differs
   status: failed
+  processed_reason: schema_understanding_error
 test_27:
-  reason: query not executable
+  reason: rows count mismatch;execution results differs
   status: failed
+  processed_reason: schema_understanding_error
 test_28:
   reason: query not executable
   status: failed
+  processed_reason: generation_failed
 test_29:
-  reason: query not executable
+  reason: rows count mismatch;execution results differs
   status: failed
+  processed_reason: schema_understanding_error
 test_3:
-  reason: query not executable
-  status: failed
+  reason: ''
+  status: success
 test_30:
-  reason: query not executable
-  status: failed
+  reason: ''
+  status: success
 test_31:
-  reason: query not executable
-  status: failed
+  reason: ''
+  status: success
 test_32:
-  reason: query not executable
+  reason: execution results differs
   status: failed
+  processed_reason: schema_understanding_error
 test_33:
-  reason: query not executable
-  status: failed
+  reason: ''
+  status: success
 test_34:
-  reason: query not executable
-  status: failed
+  reason: ''
+  status: success
 test_35:
   reason: query not executable
   status: failed
+  processed_reason: syntax_error
 test_36:
-  reason: query not executable
-  status: failed
+  reason: ''
+  status: success
 test_37:
-  reason: query not executable
-  status: failed
+  reason: ''
+  status: success
 test_38:
-  reason: query not executable
-  status: failed
+  reason: ''
+  status: success
 test_39:
-  reason: query not executable
-  status: failed
+  reason: ''
+  status: success
 test_4:
-  reason: query not executable
+  reason: attribute count mismatch;rows count mismatch;execution results differs
   status: failed
+  processed_reason: logical_error
 test_40:
-  reason: query not executable
-  status: failed
+  reason: ''
+  status: success
 test_41:
-  reason: query not executable
-  status: failed
+  reason: ''
+  status: success
 test_42:
   reason: query not executable
   status: failed
+  processed_reason: syntax_error
 test_43:
-  reason: query not executable
-  status: failed
+  reason: ''
+  status: success
 test_44:
   reason: query not executable
   status: failed
+  processed_reason: syntax_error
 test_45:
-  reason: query not executable
+  reason: attribute count mismatch;rows count mismatch;execution results differs
   status: failed
+  processed_reason: schema_understanding_error
 test_46:
   reason: query not executable
   status: failed
+  processed_reason: syntax_error
 test_47:
-  reason: query not executable
-  status: failed
+  reason: ''
+  status: success
 test_48:
   reason: query not executable
   status: failed
+  processed_reason: generation_failed
 test_49:
-  reason: query not executable
+  reason: attribute count mismatch;execution results differs
   status: failed
+  processed_reason: logical_error
 test_5:
-  reason: query not executable
-  status: failed
+  reason: ''
+  status: success
 test_50:
-  reason: query not executable
+  reason: rows count mismatch;execution results differs
   status: failed
+  processed_reason: logical_error
 test_6:
-  reason: query not executable
-  status: failed
+  reason: ''
+  status: success
 test_7:
   reason: query not executable
   status: failed
+  processed_reason: forgot_schema
 test_8:
-  reason: query not executable
-  status: failed
+  reason: ''
+  status: success
 test_9:
-  reason: query not executable
-  status: failed
+  reason: ''
+  status: success

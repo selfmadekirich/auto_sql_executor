@@ -31,9 +31,11 @@ test_18:
 test_19:
   reason: rows count mismatch;execution results differs
   status: failed
+  processed_reason: logical_error
 test_2:
   reason: query not executable
   status: failed
+  processed_reason: forgot_schema
 test_20:
   reason: ''
   status: success
@@ -46,6 +48,7 @@ test_22:
 test_23:
   reason: execution results differs
   status: failed
+  processed_reason: logical_error
 test_24:
   reason: ''
   status: success
@@ -58,93 +61,116 @@ test_26:
 test_27:
   reason: query not executable
   status: failed
+  processed_reason: schema_understanding_error
 test_28:
   reason: query not executable
   status: failed
+  processed_reason: schema_understanding_error
 test_29:
   reason: query not executable
   status: failed
+  processed_reason: schema_understanding_error
 test_3:
   reason: ''
   status: success
 test_30:
   reason: rows count mismatch;execution results differs
   status: failed
+  processed_reason: added_ordering
 test_31:
   reason: ''
   status: success
 test_32:
   reason: query not executable
   status: failed
+  processed_reason: syntax_error
 test_33:
   reason: query not executable
   status: failed
+  processed_reason: syntax_error
 test_34:
   reason: execution results differs
   status: failed
+  processed_reason: added_ordering
 test_35:
   reason: ''
   status: success
 test_36:
   reason: execution results differs
   status: failed
+  processed_reason: logical_error
 test_37:
   reason: execution results differs
   status: failed
+  processed_reason: added_ordering
 test_38:
   reason: query not executable
   status: failed
+  processed_reason: generation_failed
 test_39:
   reason: query not executable
   status: failed
+  processed_reason: syntax_error
 test_4:
   reason: ''
   status: success
 test_40:
   reason: query not executable
   status: failed
+  processed_reason: generation_failed
 test_41:
   reason: query not executable
   status: failed
+  processed_reason: syntax_error
 test_42:
   reason: query not executable
   status: failed
+  processed_reason: syntax_error
 test_43:
   reason: query not executable
   status: failed
+  processed_reason: generation_failed
 test_44:
   reason: query not executable
   status: failed
+  processed_reason: syntax_error
 test_45:
   reason: query not executable
   status: failed
+  processed_reason: syntax_error
 test_46:
   reason: query not executable
   status: failed
+  processed_reason: syntax_error
 test_47:
   reason: query not executable
   status: failed
+  processed_reason: syntax_error
 test_48:
   reason: query not executable
   status: failed
+  processed_reason: syntax_error
 test_49:
   reason: query not executable
   status: failed
+  processed_reason: syntax_error
 test_5:
   reason: ''
   status: success
 test_50:
   reason: attribute count mismatch;rows count mismatch;execution results differs
   status: failed
+  processed_reason: logical_error
 test_6:
   reason: ''
   status: success
 test_7:
   reason: attribute count mismatch;execution results differs
   status: failed
+  processed_reason: logical_error
 test_8:
-  reason: query not executable
-  status: failed
+  reason: ''
+  status: success
 test_9:
   reason: ''
   status: success

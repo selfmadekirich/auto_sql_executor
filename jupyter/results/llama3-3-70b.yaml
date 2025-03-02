@@ -30,6 +30,7 @@ test_18:
   status: success
 test_19:
   reason: rows count mismatch;execution results differs; Логически неверный запрос
+  processed_reason: logical_error
   status: failed
 test_2:
   reason: ''
@@ -60,9 +61,11 @@ test_27:
   status: success
 test_28:
   reason: rows count mismatch;execution results differs; Не понял взаимосвязь таблицы
+  processed_reason: schema_understanding_error
   status: failed
 test_29:
   reason: rows count mismatch;execution results differs; Не понял взаимосвязь таблицы
+  processed_reason: schema_understanding_error
   status: failed
 test_3:
   reason: ''
@@ -72,12 +75,14 @@ test_30:
   status: success
 test_31:
   reason: execution results differs; Добавил лишную сортировку;Некритично
+  processed_reason: added_ordering
   status: failed
 test_32:
   reason: ''
   status: success
 test_33:
   reason: rows count mismatch;execution results differs;Неправильно понял связь таблиц
+  processed_reason: schema_understanding_error
   status: failed
 test_34:
   reason: ''
@@ -103,30 +108,37 @@ test_4:
 test_40:
   reason: attribute count mismatch;execution results differs;Не понял,что нужна агрегация, возможно дело в запросе
   status: failed
+  processed_reason: logical_error
 test_41:
   reason: attribute count mismatch;execution results differs;Не понял,что нужна агрегация, возможно дело в запрос
   status: failed
+  processed_reason: logical_error
 test_42:
   reason: query not executable;Некорректный синтаксис
   status: failed
+  processed_reason: syntax_error
 test_43:
   reason: query not executable; Некорректный синтаксис с union
   status: failed
+  processed_reason: syntax_error
 test_44:
   reason: query not executable; Некорректный синтаксис с union
   status: failed
+  processed_reason: syntax_error
 test_45:
   reason: ''
   status: success
 test_46:
   reason: query not executable;Некорректный синтаксис order by
   status: failed
+  processed_reason: syntax_error
 test_47:
   reason: ''
   status: success
 test_48:
   reason: query not executable; Не понял структуру таблиц;
   status: failed
+  processed_reason: schema_understanding_error
 test_49:
   reason: ''
   status: success
@@ -136,15 +148,18 @@ test_5:
 test_50:
   reason: attribute count mismatch;rows count mismatch;execution results differs;Не понял пользовательский запрос/не учел, что строк может быть несколько
   status: failed
+  processed_reason: logical_error
 test_6:
   reason: ''
   status: success
 test_7:
   reason: execution results differs; Переусложнил, мб из-за запроса
   status: failed
+  processed_reason: overcomplicated
 test_8:
   reason: execution results differs; Переусложнил, мб из-за запроса
   status: failed
+  processed_reason: overcomplicated
 test_9:
   reason: ''
   status: success
