@@ -1,0 +1,74 @@
+test_1: query
+test_10: query
+test_11: query
+test_12: query
+test_13: SELECT COUNT(*) FROM video_games.region
+test_14: SELECT SUM(region_sales.num_sales) FROM video_games.region_sales;
+test_15: query
+test_16: release_year
+test_17: query
+test_18: query
+test_19:
+  game_name:
+    operation: like
+    value: '[A-Z]%[A-Z]'
+test_2: query
+test_20: game_name ILIKE ' % %' AND length(game_name) > 2
+test_21: query
+test_22: query
+test_23: query
+test_24: query
+test_25: query
+test_26: game_publisher
+test_27: query
+test_28: SELECT game_platform.platform_id FROM video_games.game_platform INNER JOIN
+  video_games.game ON game_platform.game_publisher_id = game.id
+test_29: SELECT gp.platform_id, gp.release_year FROM video_games.game_platform gp
+  JOIN video_games.game g ON gp.game_id = g.id
+test_3: query
+test_30: SELECT platform.platform_name, region.region_name FROM video_games.platform
+  INNER JOIN video_games.region_sales ON platform.id = region_sales.game_platform_id
+  INNER JOIN video_games.region ON region.id = region_sales.region_id GROUP BY platform.platform_name,
+  region.region_name;
+test_31:
+- query: SELECT r.region_name, SUM(rs.num_sales) as total_sales FROM video_games.region
+    r LEFT JOIN video_games.region_sales rs ON r.id = rs.region_id GROUP BY r.region_name;
+test_32: 'SELECT r.region_name, MIN(gp.release_year) as min_release_year FROM video_games.region_sales
+  rs
+
+  JOIN video_games.region r ON rs.region_id = r.id
+
+  JOIN video_games.game_platform gp ON rs.game_platform_id = gp.id
+
+  GROUP BY r.region_name'
+test_33: game_publisher.publisher_id = :publisher_id AND game_platform.id = game_publisher.game_publisher_id
+  AND platform.id = game_platform.platform_id
+test_34: query
+test_35: query
+test_36: query
+test_37: SELECT min(gp.release_year) as first_release_year FROM video_games.game_platform
+  gp GROUP BY gp.platform_id;
+test_38: query
+test_39: genre
+test_4: query
+test_40: SELECT region_sales.region_id, region.region_name, SUM(region_sales.num_sales)
+  as total_sales FROM video_games.region_sales INNER JOIN video_games.region ON region_sales.region_id
+  = region.id WHERE video_games.platform.platform_name = 'PC' AND region_sales.game_platform_id
+  = video_games.game_platform.id AND video_games.game_platform.platform_id = video_games.platform.id
+  GROUP BY region_sales.region_id, region.region_name ORDER BY total_sales DESC LIMIT
+  1;
+test_41: query
+test_42: query
+test_43: genre
+test_44: select * from not_exists_table
+test_45: query
+test_46: query
+test_47: query
+test_48: publisher
+test_49: query
+test_5: query
+test_50: query
+test_6: select * from not_exists_table
+test_7: query
+test_8: query
+test_9: query
