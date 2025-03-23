@@ -1,16 +1,44 @@
-import React, { Component } from 'react'
+import React, { Component, use, useState } from 'react'
+import api from '../api'
+import { Navigate, useNavigate } from 'react-router-dom'
+import { ACCESS_TOKEN, REFRESH_TOKEN } from '../constants'
+
 
 function Login(){
+
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
+    const [loading, setLoading] = useState("")
+    const navigate = useNavigate()
+    const handleSubmit = async (e) => {
+        setLoading(true);
+        e.preventDefault();
+
+        try{
+            const res = await api.post("/token", {username, password})
+            localStorage.setItem(ACCESS_TOKEN, res.data.access_token);
+        }
+        catch(error){
+            alert(error)
+        }
+        finally{
+            setLoading(false)
+        }
+    }
+
     return (
-        <form>
-        <h3>Sign In</h3>
+        <div className="auth-wrapper">
+        <div className="auth-inner">
+        <form onSubmit={handleSubmit}>
+        <h3>Login</h3>
 
         <div className="mb-3">
-          <label>Email address</label>
+          <label>Username</label>
           <input
-            type="email"
+            type="text"
             className="form-control"
-            placeholder="Enter email"
+            placeholder="Username"
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
 
@@ -20,6 +48,7 @@ function Login(){
             type="password"
             className="form-control"
             placeholder="Enter password"
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
 
@@ -29,6 +58,8 @@ function Login(){
           </button>
         </div>
       </form>
+      </div>
+      </div>
     )
     }
     
