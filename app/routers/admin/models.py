@@ -3,6 +3,11 @@ from enum import Enum
 import uuid
 
 
+class ConnectionsOptionValues(str, Enum):
+    all = "All"
+    partly = "Partial"
+
+
 class SupportedDbTypes(str, Enum):
     Postgres = "postgres"
     MySQL = "mysql"
@@ -15,6 +20,21 @@ class ConnectionInfo(BaseModel):
     password: str
     db_name: str
     schema_name: str
+    description: str
+    name: str
+
+
+class ConnectionInfoPartial(BaseModel):
+    name: str
+    description: str
+
+
+class DbConnectionPartialResponse(BaseModel):
+    id: uuid.UUID
+    db_type: str
+    json_props: ConnectionInfoPartial
+
+    model_config = ConfigDict(from_attributes=True)
 
 
 class DbConnectionResponse(BaseModel):

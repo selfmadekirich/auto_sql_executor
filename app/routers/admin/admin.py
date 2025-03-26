@@ -9,8 +9,13 @@ from .models import (
     DbConnectionInput,
     DbConnectionResponse,
     DbConnectionUpdateInput,
-    DbConnectionDeleteOutput
+    DbConnectionDeleteOutput,
+    ConnectionsOptionValues,
+    DbConnectionPartialResponse
 )
+
+from .utils import wrap_values
+
 from repository.db_settings import (
     get_all_db_connection,
     insert_db_connection,
@@ -26,14 +31,20 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/token")
 
 @router.get(
         "/db_connections/",
-        response_model=list[DbConnectionResponse],
         tags=["admin"])
 async def get_settings(
+    option: ConnectionsOptionValues,
     token: Annotated[Token, Depends(oauth2_scheme)],
     db=Depends(get_session)
-):
-    check_admin_privs(token)
-    return await get_all_db_connection(db)
+) -> list[DbConnectionResponse] | list[DbConnectionPartialResponse]:
+
+    if option == ConnectionsOptionValues.all:
+        check_admin_privs(token)
+
+    return wrap_values(
+       await get_all_db_connection(db),
+       option
+    )
 
 
 @router.post(

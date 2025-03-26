@@ -36,10 +36,18 @@ async def authenticate_user(db: AsyncSession, username: str, password: str):
 
 
 def check_admin_privs(token: Token) -> bool:
-    payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-    print(payload)
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+
+    except jwt.ExpiredSignatureError as e:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=str(e)
+        )
+
     scopes: str = payload.get("scopes") or ""
     scopes = set([x.lower() for x in scopes.split(";")])
+
     if 'admin' not in scopes:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,

@@ -15,8 +15,11 @@ function Login(){
         e.preventDefault();
 
         try{
-            const res = await api.post("/token", {username, password})
+            const grant_type = 'password'
+            let config = { headers: { 'Content-Type': 'application/x-www-form-urlencoded'} }
+            const res = await api.post("/token", {username, password, grant_type}, config)
             localStorage.setItem(ACCESS_TOKEN, res.data.access_token);
+            navigate('/');
         }
         catch(error){
             alert(error)

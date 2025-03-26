@@ -9,6 +9,9 @@ import Projects from './pages/Projects';
 import ProtectedRoute from './components/ProtectedRoute';
 import Results from './pages/Results';
 import NotFound from './pages/NotFound';
+import { useEffect, useState } from 'react';
+import { ACCESS_TOKEN } from "./constants"
+
 
 function Logout(){
   localStorage.clear()
@@ -17,6 +20,16 @@ function Logout(){
 
 
 function App() {
+
+  const [IsLogged, SetIsLogged] = useState(false)
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem(ACCESS_TOKEN);
+    if (storedToken) {
+      SetIsLogged(true);
+    }
+  }, []);
+
   return (
     <Router>
       <div className='App'>
@@ -26,9 +39,11 @@ function App() {
               <li className="nav-item">
                 <Link to="/" className="nav-link">Home</Link>
               </li>
-              <li className="nav-item">
-                <Link to="/login" className="nav-link">Login</Link>
-              </li>
+             {!IsLogged && (
+                <li className="nav-item">
+                  <Link to="/login" className="nav-link">Login</Link>
+                </li>
+              )}
               <li className="nav-item">
                 <Link to="/projects" className="nav-link">Projects</Link>
               </li>
@@ -44,13 +59,13 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/projects" element={
-              <Projects/>
+            <ProtectedRoute> <Projects/></ProtectedRoute>
           }/>
           <Route path="/results" element={
               <Results/>
           }/>
           <Route path="/settings" element={
-              <Connections/>
+              <ProtectedRoute><Connections/></ProtectedRoute>
           }/>
           <Route path="*" element={<NotFound />} />
         </Routes>

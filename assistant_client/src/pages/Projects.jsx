@@ -1,7 +1,40 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import UserProjectRow from '../components/UserProjectRecord';
+import api from '../api'
 
 function Projects() {
+
+  const [userProjectRows, setUserProjectRows] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await api.get('/db_connections/', {
+          params: {
+            option: 'Partial'
+          }
+        });
+
+        const recoded_data = []
+        response.data.map(
+          function(item){
+            recoded_data.push({
+              connectionName: item.json_props.name,
+              description: item.json_props.description,
+              dbType: item.db_type,
+              connection_id: item.id
+            })
+          }
+        )
+        setUserProjectRows(recoded_data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   // Заглушка для написания фронта
   const UserProjectRows = [
     { connectionName: "connection_1", description: "description_1", dbType: "PostgreSQL" },
@@ -23,7 +56,7 @@ function Projects() {
         </tr>
       </thead>
       <tbody className="my-3">
-        {UserProjectRows.map((row, index) => (
+        {userProjectRows.map((row, index) => (
           <UserProjectRow 
             key={index}
             connectionName={row.connectionName} 
