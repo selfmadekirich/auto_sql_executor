@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Row, Col, Form, Button, Table } from 'react-bootstrap';
+import { computeResults } from '../api/Results';
 
 
 
 function Results(){
+
+    const { connectionId } = useParams();
 
     const [inputText, setInputText] = useState('');
     const [showTable, setShowTable] = useState(false);
@@ -22,11 +26,13 @@ function Results(){
     setInputText(e.target.value);
   };
 
-  const handleSubmit = () => {
-    setData(sampleData);
-
-    if (sampleData.length > 0) {
-      setHeaders(Object.keys(sampleData[0]));
+  const handleSubmit = async () => {
+    await computeResults(connectionId, inputText,
+      setData, (error) => console.log(error)
+    )
+    
+    if (data.length > 0) {
+      setHeaders(Object.keys(data[0]));
     }
 
     setShowTable(true);

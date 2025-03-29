@@ -46,9 +46,7 @@ async def get_generation_result(
     db=Depends(get_session)
 ):
     m = SqlGenerationManager(
-        db,
-        connection_id,
-        d
+        db, connection_id, d
     )
     result = await m.execute_generated_query()
     prompt, gq = m.prompt, m.generated_query

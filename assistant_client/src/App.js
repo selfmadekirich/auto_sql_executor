@@ -61,7 +61,7 @@ function App() {
           <Route path="/projects" element={
             <ProtectedRoute> <Projects/></ProtectedRoute>
           }/>
-          <Route path="/results" element={
+          <Route path="/results/:connectionId" element={
               <Results/>
           }/>
           <Route path="/settings" element={
