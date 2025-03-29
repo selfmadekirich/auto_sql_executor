@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Row, Col, Form, Button, Table } from 'react-bootstrap';
 import { computeResults } from '../api/Results';
+import MessageDisplay from '../components/MessageDisplay';
 
 
 
@@ -14,29 +15,41 @@ function Results(){
     const [showTable, setShowTable] = useState(false);
     const [data, setData] = useState([]);
     const [headers, setHeaders] = useState([]);
+    const [messages, setMessages] = useState([]);
 
-
+    
+    /*
     const sampleData = [
         { "key_1": "aaaaa", "key_2": "vvvvvvv","key_4": "aaaaa","key_5": "aaaaa" },
         { "key_1": "bbbbb", "key_2": "wwwwwww","key_4": "aaaaa","key_5": "aaaaa" },
         { "key_1": "ccccc", "key_2": "xxxxxxx","key_4": "aaaaa" ,"key_5": "aaaaa"}
       ];
 
-    const handleInputChange = (e) => {
-    setInputText(e.target.value);
-  };
+  */
+
+      const handleInputChange = (e) => {
+        setInputText(e.target.value);
+      };
 
   const handleSubmit = async () => {
-    await computeResults(connectionId, inputText,
-      setData, (error) => console.log(error)
+
+     await computeResults(connectionId, inputText,
+      (data) => { 
+        setData(data); 
+        setMessages([{ type: 'success', text: 'Данные успешно загружены' }]);
+      },
+       (error) => console.log(error)
     )
-    
-    if (data.length > 0) {
-      setHeaders(Object.keys(data[0]));
-    }
 
     setShowTable(true);
   };
+
+
+  useEffect(() => {
+    if (data.length > 0) {
+      setHeaders(Object.keys(data[0]));
+    }
+  }, [data]);
 
   return (
     <Container>
@@ -87,6 +100,7 @@ function Results(){
           </Col>
         </Row>
       )}
+      <MessageDisplay messages={messages} />
     </Container>
   );
 };

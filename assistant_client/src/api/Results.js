@@ -6,16 +6,7 @@ const computeResults = async (connectionId, userRequest ,onSuccess, onFailed) =>
         "user_query": userRequest
       });
 
-      const recoded_data = []
-      console.log(response.data);
-      response.data.results.map(
-        function(item){
-          recoded_data.push({
-           item
-          })
-        }
-      )
-      onSuccess(recoded_data);
+      onSuccess(response.data.result);
     } catch (error) {
         onFailed(error);
     }
