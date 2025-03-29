@@ -1,18 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import api from '../api';
+import { fetchDb_types } from '../api/Connections';
+
 
 
 
 function EditRecordModal({connection, onClose, onSave }){
-  console.log(connection)
   if (connection === null){
     connection = {
-      id:"",
+      connection_id:"",
       connectionName: "", 
       password:"",
       description: "",
       dbName: "",
       host: "",
-      dbType: ""
+      dbType: "",
+      user: "",
+      port: 0,
+      schema_name: ""
     }
   }
   const [formData, setFormData] = useState({
@@ -21,8 +26,20 @@ function EditRecordModal({connection, onClose, onSave }){
     dbName: connection.dbName,
     dbType: connection.dbType,
     connectionName: connection.connectionName,
-    password: "change_me"
+    password: "",
+    port: connection.port,
+    user: connection.user,
+    schema_name: connection.schema_name,
+    id: connection.connection_id
   });
+
+
+  const [dbTypes, setDbTypes] = useState([]);
+
+  useEffect(() => {
+    fetchDb_types(setDbTypes, 
+      (error) => {console.error('Error fetching data:', error)})
+  }, []);
 
   const handleChange = (e) => {
     console.log("here")
@@ -51,16 +68,37 @@ function EditRecordModal({connection, onClose, onSave }){
                 <input type="text" className="form-control" onChange={handleChange}  id="connectionName" value={formData.connectionName} />
               </div>
               <div className="mb-3">
+                <label htmlFor="dbType" className="form-label d-block text-start">DB Type</label>
+                <select className="form-select" id="dbType" onChange={handleChange} value={formData.dbType}>
+                  <option value="">Select DB Type</option>
+                  {dbTypes.map((type, index) => (
+                    <option key={index} value={type}>{type}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="mb-3">
                 <label htmlFor="dbName" className="form-label d-block text-start">DB Name</label>
                 <input type="text" className="form-control" onChange={handleChange} id="dbName" value={formData.dbName} />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="dbName" className="form-label d-block text-start">Schema name</label>
+                <input type="text" className="form-control" onChange={handleChange} id="schema_name" value={formData.schema_name} />
               </div>
               <div className="mb-3">
                 <label htmlFor="host" className="form-label d-block text-start">Host</label>
                 <input type="text" className="form-control" onChange={handleChange} id="host" value={formData.host} />
               </div>
               <div className="mb-3">
+                <label htmlFor="port" className="form-label d-block text-start">Port</label>
+                <input type="text" className="form-control" onChange={handleChange} id="port" value={formData.port} />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="user" className="form-label d-block text-start">User</label>
+                <input type="text" className="form-control" onChange={handleChange} id="user" value={formData.user} />
+              </div>
+              <div className="mb-3">
                 <label htmlFor="dbType" className="form-label d-block text-start">Password</label>
-                <input type="password" className="form-control" onChange={handleChange} id="dbType" value={formData.password} />
+                <input type="password" className="form-control" onChange={handleChange} id="password" value={formData.password} />
               </div>
               <div className="mb-3">
                 <label htmlFor="description" className="form-label d-block text-start">Description</label>

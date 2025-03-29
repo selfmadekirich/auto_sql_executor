@@ -11,7 +11,9 @@ from .models import (
     DbConnectionUpdateInput,
     DbConnectionDeleteOutput,
     ConnectionsOptionValues,
-    DbConnectionPartialResponse
+    DbConnectionPartialResponse,
+    DbConnectionFullResponse,
+    SupportedDbTypes
 )
 
 from .utils import wrap_values
@@ -28,15 +30,17 @@ router = APIRouter()
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/token")
 
+tags = ["connections"]
+
 
 @router.get(
-        "/db_connections/",
-        tags=["admin"])
+        "/db_connections",
+        tags=tags)
 async def get_settings(
     option: ConnectionsOptionValues,
     token: Annotated[Token, Depends(oauth2_scheme)],
     db=Depends(get_session)
-) -> list[DbConnectionResponse] | list[DbConnectionPartialResponse]:
+) -> list[DbConnectionFullResponse] | list[DbConnectionPartialResponse]:
 
     if option == ConnectionsOptionValues.all:
         check_admin_privs(token)
@@ -50,7 +54,7 @@ async def get_settings(
 @router.post(
         "/db_connections",
         response_model=DbConnectionResponse,
-        tags=["admin"])
+        tags=tags)
 async def save_setting(
     data: DbConnectionInput,
     token: Annotated[Token, Depends(oauth2_scheme)],
@@ -60,7 +64,7 @@ async def save_setting(
     return await insert_db_connection(db, data)
 
 
-@router.get("/db_connections/{connection_id}", tags=["admin"])
+@router.get("/db_connections/{connection_id}", tags=tags)
 async def get_setting(
     connection_id: UUID,
     token: Annotated[Token, Depends(oauth2_scheme)],
@@ -70,7 +74,7 @@ async def get_setting(
     return await get_db_connection(db, connection_id)
 
 
-@router.patch("/db_connections/{connection_id}", tags=["admin"])
+@router.patch("/db_connections/{connection_id}", tags=tags)
 async def update_setting(
     connection_id: UUID,
     data: DbConnectionUpdateInput,
@@ -83,7 +87,7 @@ async def update_setting(
     )
 
 
-@router.delete("/db_connections/{connection_id}", tags=["admin"])
+@router.delete("/db_connections/{connection_id}", tags=tags)
 async def delete_setting(
     connection_id: UUID,
     token: Annotated[Token, Depends(oauth2_scheme)],
@@ -91,3 +95,13 @@ async def delete_setting(
 ) -> DbConnectionDeleteOutput:
     check_admin_privs(token)
     return await delete_db_connection(db, connection_id)
+
+
+@router.get(
+        "/database_types",
+        tags=tags)
+def get_db_types(
+    _: Annotated[Token, Depends(oauth2_scheme)],
+) -> list[SupportedDbTypes]:
+
+    return [x.value for x in SupportedDbTypes]

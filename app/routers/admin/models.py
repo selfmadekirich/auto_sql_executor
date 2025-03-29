@@ -1,4 +1,4 @@
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from enum import Enum
 import uuid
 
@@ -17,7 +17,17 @@ class ConnectionInfo(BaseModel):
     host: str
     port: int
     user: str
-    password: str
+    password: str = Field(min_length=3)
+    db_name: str
+    schema_name: str
+    description: str
+    name: str
+
+
+class ConnectionInfoFull(BaseModel):
+    host: str
+    port: int
+    user: str
     db_name: str
     schema_name: str
     description: str
@@ -33,6 +43,14 @@ class DbConnectionPartialResponse(BaseModel):
     id: uuid.UUID
     db_type: str
     json_props: ConnectionInfoPartial
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class DbConnectionFullResponse(BaseModel):
+    id: uuid.UUID
+    db_type: str
+    json_props: ConnectionInfoFull
 
     model_config = ConfigDict(from_attributes=True)
 

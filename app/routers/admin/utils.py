@@ -1,5 +1,5 @@
 from .models import (
-    DbConnectionResponse,
+    DbConnectionFullResponse,
     ConnectionsOptionValues,
     DbConnectionPartialResponse
 )
@@ -8,7 +8,7 @@ from .models import (
 def wrap_values(lst: list, flag_value: ConnectionsOptionValues):
     match flag_value:
         case ConnectionsOptionValues.all:
-            return [DbConnectionResponse.from_orm(x) for x in lst]
+            return [DbConnectionFullResponse.from_orm(x) for x in lst]
         case ConnectionsOptionValues.partly:
             return [DbConnectionPartialResponse.from_orm(x) for x in lst]
     return None

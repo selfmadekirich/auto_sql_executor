@@ -9,7 +9,7 @@ function Projects() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get('/db_connections/', {
+        const response = await api.get('/db_connections', {
           params: {
             option: 'Partial'
           }
