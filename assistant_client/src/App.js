@@ -21,14 +21,6 @@ function Logout(){
 
 function App() {
 
-  const [IsLogged, SetIsLogged] = useState(false)
-
-  useEffect(() => {
-    const storedToken = localStorage.getItem(ACCESS_TOKEN);
-    if (storedToken) {
-      SetIsLogged(true);
-    }
-  }, []);
 
   return (
     <Router>
@@ -39,11 +31,6 @@ function App() {
               <li className="nav-item">
                 <Link to="/" className="nav-link">Home</Link>
               </li>
-             {!IsLogged && (
-                <li className="nav-item">
-                  <Link to="/login" className="nav-link">Login</Link>
-                </li>
-              )}
               <li className="nav-item">
                 <Link to="/projects" className="nav-link">Projects</Link>
               </li>

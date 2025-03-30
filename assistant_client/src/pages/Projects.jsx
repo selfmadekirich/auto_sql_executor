@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import UserProjectRow from '../components/UserProjectRecord';
 import api from '../api'
 import { fetchProjects } from '../api/Projects';
+import { Notifications } from "react-push-notification";
+import { successNotification, errorNotification } from '../utils';
 
 
 function Projects() {
@@ -10,7 +12,7 @@ function Projects() {
 
   useEffect(() => {
     fetchProjects(setUserProjectRows,
-      (error) => {console.error(error)}
+      (error) => {errorNotification(error.message)}
      )
   }, []);
 
@@ -40,6 +42,7 @@ function Projects() {
         ))}
       </tbody>
     </table>
+     <Notifications position='bottom-left'/>
   </div>
   );
 };

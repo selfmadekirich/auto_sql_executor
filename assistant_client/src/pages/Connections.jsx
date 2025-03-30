@@ -1,10 +1,10 @@
 import React, {useState, useEffect } from 'react';
 import ConnectionRecord from '../components/ConnectionRecord';
 import EditRecordModal from '../components/EditRecordModal';
-import api from '../api'
 import ConnectionDTO from '../dto/Connections'
 import fetchConnections, { deleteConnection, createConnection, updateConnection } from '../api/Connections';
-
+import { Notifications } from "react-push-notification";
+import { successNotification, errorNotification } from '../utils';
 
 function Connections() {
      
@@ -17,7 +17,7 @@ function Connections() {
 
     useEffect( () => {
        fetchConnections(
-        setConnections, (error) => {console.error('Error fetching data:', error)});
+        setConnections, (error) => {errorNotification(error.message)});
     }, []);
 
 
@@ -36,11 +36,11 @@ function Connections() {
 
     const handleDelete = async (id) => {
         await deleteConnection(id,
-          () => {console.log("successfully delete")},
-          (error) => console.error(error)
+          () => {successNotification("","Соединение удалено!")},
+          (error) => errorNotification(error.message)
         )
         await fetchConnections(setConnections, 
-          (error) => {console.error('Error fetching data:', error);})
+          (error) => {errorNotification(error.message)})
     };
 
       const handleSaveChanges = async (updatedConnection) => {
@@ -49,12 +49,12 @@ function Connections() {
         await updateConnection(
           dto.id,
           dto.toUpdateConnectionAPI(),
-          () => {console.log("successfully Updated!")},
-          (error) => console.error(error)
+          () => {successNotification("","Соединение обновлено!")},
+          (error) => errorNotification(error.message)
         )
           
         await fetchConnections(setConnections, 
-          (error) => {console.error('Error fetching data:', error);})
+          (error) => {errorNotification(error.message)})
   
         setIsModalOpen(false);
     };
@@ -63,12 +63,12 @@ function Connections() {
     const handleSaveNewConnection = async (newConnection) => {
         await createConnection(
           new ConnectionDTO(newConnection).toCreateConnectionAPI(),
-          () => {console.log("successfully Created!")},
+          () => {successNotification("", "Соединение добавлено!")},
           (error) => console.error(error)
         )
           
         await fetchConnections(setConnections, 
-          (error) => {console.error('Error fetching data:', error);})
+          (error) => {errorNotification(error.message)})
   
         setIsNewConnectionModalOpen(false);
     };
@@ -129,6 +129,7 @@ function Connections() {
           onSave={handleSaveNewConnection}
         />
       )}
+      <Notifications position='bottom-left'/>
   </div>
   );
 };

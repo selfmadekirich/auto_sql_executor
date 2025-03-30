@@ -1,8 +1,9 @@
 import React, { Component, use, useState } from 'react'
 import api from '../api'
-import { Navigate, useNavigate } from 'react-router-dom'
+import {  useNavigate } from 'react-router-dom'
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../constants'
-
+import { Notifications } from "react-push-notification";
+import { successNotification, errorNotification } from '../utils';
 
 function Login(){
 
@@ -22,7 +23,7 @@ function Login(){
             navigate('/');
         }
         catch(error){
-            alert(error)
+          errorNotification("Неправильные логин/пароль!")
         }
         finally{
             setLoading(false)
@@ -62,6 +63,7 @@ function Login(){
         </div>
       </form>
       </div>
+      <Notifications position='bottom-left'/>
       </div>
     )
     }

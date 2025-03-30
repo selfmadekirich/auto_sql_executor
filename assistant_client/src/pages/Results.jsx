@@ -3,7 +3,9 @@ import { useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Row, Col, Form, Button, Table } from 'react-bootstrap';
 import { computeResults } from '../api/Results';
-import MessageDisplay from '../components/MessageDisplay';
+import { Notifications } from "react-push-notification";
+import { successNotification, errorNotification } from '../utils';
+
 
 
 
@@ -15,7 +17,6 @@ function Results(){
     const [showTable, setShowTable] = useState(false);
     const [data, setData] = useState([]);
     const [headers, setHeaders] = useState([]);
-    const [messages, setMessages] = useState([]);
 
     
     /*
@@ -27,21 +28,23 @@ function Results(){
 
   */
 
+
       const handleInputChange = (e) => {
         setInputText(e.target.value);
       };
 
   const handleSubmit = async () => {
+    
+    successNotification("" ,"Начинаем считать")
 
      await computeResults(connectionId, inputText,
       (data) => { 
         setData(data); 
-        setMessages([{ type: 'success', text: 'Данные успешно загружены' }]);
+        successNotification("","Успешно посчитали!")
+        setShowTable(true);
       },
-       (error) => console.log(error)
+       (error) => { errorNotification(error.message);}
     )
-
-    setShowTable(true);
   };
 
 
@@ -100,7 +103,8 @@ function Results(){
           </Col>
         </Row>
       )}
-      <MessageDisplay messages={messages} />
+      
+      <Notifications position='bottom-left'/>
     </Container>
   );
 };
