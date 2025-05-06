@@ -7,7 +7,7 @@ from repository.tables_metadata import (
     delete_all_metadata
 )
 from .managers.meta_extractor_manager import MetaExtractorManager
-
+from services.fernet_service import get_fernet
 
 router = APIRouter()
 
@@ -17,8 +17,12 @@ router = APIRouter()
         response_model=OkResponse,
         tags=["meta extraction"]
 )
-async def extract_metadata(connection_id, db=Depends(get_session)):
-    conn = await get_db_connection(db, connection_id)
+async def extract_metadata(
+    connection_id,
+    db=Depends(get_session),
+    crypt_service=Depends(get_fernet)
+):
+    conn = await get_db_connection(db, connection_id, crypt_service)
     m = MetaExtractorManager(conn)
     await delete_all_metadata(db, connection_id)
     data = m.extract()

@@ -15,6 +15,7 @@ from .models import (
     DbConnectionFullResponse,
     SupportedDbTypes
 )
+from services.fernet_service import get_fernet
 
 from .utils import wrap_values
 
@@ -58,20 +59,22 @@ async def get_settings(
 async def save_setting(
     data: DbConnectionInput,
     token: Annotated[Token, Depends(oauth2_scheme)],
-    db=Depends(get_session)
+    db=Depends(get_session),
+    crypt_service=Depends(get_fernet)
 ):
     check_admin_privs(token)
-    return await insert_db_connection(db, data)
+    return await insert_db_connection(db, data, crypt_service)
 
 
 @router.get("/db_connections/{connection_id}", tags=tags)
 async def get_setting(
     connection_id: UUID,
     token: Annotated[Token, Depends(oauth2_scheme)],
-    db=Depends(get_session)
+    db=Depends(get_session),
+    crypt_service=Depends(get_fernet)
 ):
     check_admin_privs(token)
-    return await get_db_connection(db, connection_id)
+    return await get_db_connection(db, connection_id, crypt_service)
 
 
 @router.patch("/db_connections/{connection_id}", tags=tags)
@@ -79,11 +82,12 @@ async def update_setting(
     connection_id: UUID,
     data: DbConnectionUpdateInput,
     token: Annotated[Token, Depends(oauth2_scheme)],
-    db=Depends(get_session)
+    db=Depends(get_session),
+    crypt_service=Depends(get_fernet)
 ):
     check_admin_privs(token)
     return await update_db_connection(
-        db, data, connection_id
+        db, data, connection_id, crypt_service
     )
 
 
