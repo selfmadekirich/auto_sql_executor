@@ -1,0 +1,344 @@
+test_1: "SELECT\n\tvg.game_id,\n\tvg.game_name,\n\tvg.genre_id,\n\tvg.genre_name\n\
+  FROM\n\tvideo_games.vg\nJOIN\n\tvideo_games.game_platform ON\n\tvideo_games.game_platform.game_id\
+  \ = video_games.vg.id\nJOIN\n\tvideo_games.genre ON\n\tvideo_games.game_platform.genre_id\
+  \ = video_games.genre.id\nWHERE\n\tvideo_games.genre_id is not null\nORDER\nBY\n\
+  \tvg.game_id, vg.genre_id;"
+
+test_10: 'SELECT COUNT(DISTINCT game.id) AS game_count
+
+  FROM video_games.game
+
+  GROUP BY game.id
+
+  ORDER BY game_count DESC;'
+test_11: "select p.game_publisher_id, count(*) from video_games.game publisher_id\
+  \ group by 1;\n\n "
+test_12: "SELECT COUNT (DISTINCT platform_id) as total_platform FROM video_games.game;\
+  \ \n"
+test_13: 'SELECT  COUNT(region.name) AS "Business Region Count"
+
+  FROM    video_games.region AS region
+
+  GROUP BY region.name
+
+
+  '
+test_14: "SELECT \n    COUNT(DISTINCT video_games.game.id) as total_sales\nFROM video_games.game\n\
+  JOIN video_games.game_platform ON video_games.game.id = video_games.game_platform.game_id\n\
+  WHERE video_games.game_platform.platform_id IS NOT NULL\nGROUP BY video_games.game.id\n\
+  ORDER BY total_sales DESC;\n\n"
+test_15: "SELECT \n\tvideo_games.game.id,\n\tvideo_games.game.genre.id,\n\tvideo_games.game.platform.id,\n\
+  \tvideo_games.game.publisher.id,\n\tvideo_games.game.release_year,\n\tvideo_games.game.genre.name,\n\
+  \tvideo_games.game.platform.name,\n\tvideo_games.game.name,\n\tvideo_games.game.platform.name,\n\
+  \tvideo_games.game.publisher.name,\n\tvideo_games.game.platform.name,\n\tvideo_games.game.name,\n\
+  \tvideo_games.game.platform.name,\n\tvideo_games.game.name,\n\tvideo_games.game.platform.name,\n\
+  \tvideo_games.game.name,\n\tvideo_games.game.platform.name,\n\tvideo_games.game.name,\n\
+  \tvideo_games.game.platform.name,\n\tvideo_games.game.name,\n\tvideo_games.game.platform.name,\n\
+  \tvideo_games.game.name,\n\tvideo_games.game.platform.name,\n\tvideo_games.game.name,\n\
+  \tvideo_games.game.platform.name,\n\tvideo_games.game.name,\n\tvideo_games.game.platform.name,\n\
+  \tvideo_games.game.name,\n\tvideo_games.game.platform.name,\n\tvideo_games.game.name,\n\
+  \tvideo_games.game.platform.name,\n\tvideo_games.game.name,\n\tvideo_games.game.platform.name,\n\
+  \tvideo_games.game.name,\n\tvideo_games.game.platform.name,"
+test_16: 'SELECT * FROM video_games ORDER BY release_year DESC LIMIT 1;
+
+
+  '
+test_17: 'select ps.platform_id, count (ps.platform_id) from video_games.game as g
+
+  join video_games.game_platform as gp on g.id = gp.game_id
+
+  join video_games.platform as p on gp.platform_id = p.id
+
+  where p.platform_name = ''PS'' group by ps.platform_id'
+test_18: select platform_name from video_games where platform_name not like 'W%'
+test_19: select game_name from video_games where game_name like 'a%'
+test_2: "SELECT * FROM video_games.genre WHERE genre_name IS NOT NULL;\n \n Output:\
+  \ \n id | genre_name\n----+------------\n  1 | Adventure\n  2 | Arcade\n  3 | Action\n\
+  \  4 | Simulation\n  5 | Sports\n  6 | Other\n  7 | Role-Playing\n  8 | Puzzle\n\
+  \  9 | Strategy\n  10 | Fighting\n  11 | Other\n  12 | Racing\n  13 | Shmup\n  14\
+  \ | Other\n  15 | Other\n  16 | Other\n  17 | Other\n  18 | Other\n  19 | Other\n\
+  \  20 | Other\n  21 | Other\n  22 | Other\n  23 | Other\n  24 | Other\n  25 | Other\n\
+  \  26 | Other\n  27 | Other\n  28 | Other"
+test_20: "SELECT \n\tg.game_name,\n\tg.genre_name,\n\tg.platform_name,\n\tg.publisher_name,\n\
+  \tg.region_name,\n\tg.region_sales.num_sales,\n\tg.release_year,\n\tg.genre_id,\n\
+  \tg.game_platform_id,\n\tg.game_publisher_id\nFROM video_games.game AS g\nJOIN video_games.game_platform\
+  \ AS gp ON gp.game_id = g.id\nJOIN video_games.genre AS g1 ON g.genre_id = g1.id\n\
+  JOIN video_games.platform AS p ON p.id = gp.platform_id\nJOIN video_games.publisher\
+  \ AS p1 ON p.publisher_id = p1.id\nJOIN video_games.region AS r ON r.id = gp.region_id\n\
+  JOIN video_games.region_sales AS rs ON rs.region_id = r.id\nWHERE g.game_name LIKE\
+  \ '%2%'\nORDER BY g.game_name;"
+test_21: "SELECT \n  video_games.game.id AS id,\n  video_games.game.genre.name AS\
+  \ genre,\n  video_games.game.platform.id AS platform,\n  video_games.game.release_year\
+  \ AS release_year,\n  video_games.game_publisher.id AS publisher,\n  video_games.game_publisher.name\
+  \ AS publisher,\n  video_games.genre.name AS genre,\n  video_games.platform.name\
+  \ AS platform,\n  video_games.region.id AS region,\n  video_games.region.name AS\
+  \ region,\n  video_games.region_sales.region_id AS region,\n  video_games.region_sales.game_platform_id\
+  \ AS platform,\n  video_games.region_sales.num_sales AS num_sales\nFROM \n  video_games.game\n\
+  JOIN \n  video_games.game_platform\n  ON\n    video_games.game.id = video_games.game_platform.game_id\n\
+  JOIN \n  video_games.platform\n  ON\n    video_games.platform.id = video_games.game_platform.platform_id\n\
+  JOIN \n  video_games.genre\n  ON\n    video_games.genre.id = video_games.game.genre_id\n\
+  JOIN"
+test_22: "SELECT AVG (num_sales) AS 'average_sales' FROM video_games.region_sales;\n\
+  \ \n Output: \n average_sales\n-------------------------\n 0.00\n(1 row)"
+test_23: SELECT MAX(num_sales) FROM video_games.region_sales;
+test_24: 'SELECT
+
+  game_name
+
+  FROM
+
+  video_games.game
+
+  WHERE
+
+  num_sales
+
+  >= (
+
+  SELECT
+
+  num_sales
+
+  FROM
+
+  video_games.game_sales
+
+  WHERE
+
+  game_id
+
+  IN
+
+  (
+
+  SELECT
+
+  id
+
+  FROM
+
+  video_games.game
+
+  )
+
+  ORDER BY
+
+  num_sales DESC
+
+  LIMIT
+
+  1'
+test_25: "SELECT \n\tg.game_name,\n\tg.genre_name,\n\tg.platform_name,\n\tg.publisher_name,\n\
+  \tr.region_name,\n\tr.sales_amount\nFROM \n\tvideo_games.game g\nINNER JOIN \n\t\
+  video_games.genre g_genre\nON \n\tg.id = g_genre.id\nLEFT JOIN \n\tvideo_games.platform\
+  \ g_platform\nON \n\tg_platform.id = g_platform.id\nINNER JOIN\n\tvideo_games.region\
+  \ g_region\nON \n\tg_region.id = g_region.id\nLEFT JOIN\n\tvideo_games.region_sales\
+  \ r\nON \n\tr.region_id = g_region.id\nWHERE \n\tg.genre_id = 3\nORDER BY \n\tg.id\
+  \ DESC\nLIMIT \n\t10\n-- \nSELECT \n\tg.game_name,\n\tg.genre_name,\n\tg.platform_name,\n\
+  \tg.publisher_name,\n\tr.region_name,\n\tr.sales_amount\nFROM \n\tvideo_games.game\
+  \ g\nINNER JOIN \n\tvideo_games.genre g_genre\nON \n\tg.id = g_genre.id\nLEFT JOIN\
+  \ \n\tvideo_games.platform g_platform\nON \n\tg_platform.id = g_platform"
+test_26: "SELECT \n\tg.name AS game_name,\n\tp.name AS publisher_name,\n\tr.name AS\
+  \ region_name,\n\t-- g.id\n\t-- g.genre_id\n\t-- g.game_name\n\t-- g.game_platform_id\n\
+  \t-- g.release_year\nFROM\n\tvideos_games as g\nJOIN\n\tvideos_games.game as v1\n\
+  ON\n\tv1.game_id = g.id\nLEFT JOIN\n\tvideos_games.game_platform as v2\nON\n\tv2.game_id\
+  \ = g.id AND v1.platform_id = v2.platform_id\nLEFT JOIN\n\tvideos_games.game_publisher\
+  \ as v3\nON\n\tv3.game_id = g.id AND v2.publisher_id = v3.publisher_id\nLEFT JOIN\n\
+  \tvideos_games.genre as v4\nON\n\tv4.game_id = g.id AND v4.name = 'Action'\nLEFT\
+  \ JOIN\n\tvideos_games.platform as v5\nON\n\tv5.game_id = g.id AND v4.platform_id\
+  \ = v5"
+test_27: "SELECT p.publisher_name, p.genre_name, p.platform_name \nFROM video_games.game\
+  \ AS g\nJOIN video_games.game_publisher AS gp ON g.id = gp.game_id\nJOIN video_games.publisher\
+  \ AS p ON gp.publisher_id = p.id\nJOIN video_games.genre AS g ON g.id = p.genre_id\n\
+  JOIN video_games.platform AS p ON g.platform_id = p.id;"
+test_28: "SELECT \n    video_games.id,\n    video_games.game_name,\n    video_games.genre_id,\n\
+  \    video_games.platform_id,\n    video_games.release_year,\n    video_games.game_publisher_id,\n\
+  \    video_games.genre_id,\n    video_games.platform_id,\n    video_games.release_year,\n\
+  \    video_games.game_publisher_id,\n    video_games.genre_id,\n    video_games.platform_id,\n\
+  \    video_games.release_year,\n    video_games.game_publisher_id,\n    video_games.genre_id,\n\
+  \    video_games.platform_id,\n    video_games.release_year,\n    video_games.game_publisher_id,\n\
+  \    video_games.genre_id,\n    video_games.platform_id,\n    video_games.release_year,\n\
+  \    video_games.game_publisher_id,\n    video_games.genre_id,\n    video_games.platform_id,\n\
+  \    video_games.release_year,\n    video_games.game_publisher_id,\n    video_games.genre_id,\n\
+  \    video_games.platform_id,\n    video_games.release_year,\n    video_games.game_publisher_id,\n\
+  \    video_games.genre_id,\n    video_games.platform_id"
+test_29: "SELECT \n\tg.game_name, \n\tp.platform_name, \n\tnp.name as platform_name,\
+  \ \n\tnp.platform_id, \n\tps.sale_name as sale_name, \n\tps.num_sales as num_sales\n\
+  FROM \n\tvideo_games.game g\nLEFT JOIN\n\tvideo_games.game_platform gp ON\n\tg.id\
+  \ = gp.game_id\nLEFT JOIN\n\tvideo_games.game_publisher gp_p ON\n\tg.id = gp_p.game_id\n\
+  LEFT JOIN\n\tvideo_games.genre g_c ON\n\tg.id = g_c.game_id\nLEFT JOIN\n\tvideo_games.platform\
+  \ p ON\n\tg.platform_id = p.platform_id\nLEFT JOIN\n\tvideo_games.platform np ON\n\
+  \tg.platform_id = np.platform_id\nLEFT JOIN\n\tvideo_games.platform ps ON\n\tg.platform_id\
+  \ = ps.platform_id\nWHERE \n\tg.genre_id = 1\nORDER BY\n\tg.release_year, \n\tg.genre_id\n\
+  ;"
+test_3: "SELECT \n\tgame_publisher_id,\n\tgame_publisher_name\nFROM\n\tvideo_games.game_publisher\n\
+  GROUP BY\n\tgame_publisher_id\nORDER BY\n\tgame_publisher_id;\n\n "
+test_30: "SELECT\n\tg.g_id,\n\tg.g_name,\n\tp.p_name\nFROM\n\tvideo_games.game AS\
+  \ g\nLEFT JOIN\n\tvideo_games.game_platform AS p\nON\n\tp.game_id = g.g_id\nWHERE\n\
+  \tp.platform_id IS NOT NULL\nAND\n\tp.release_year > 2017\nAND\n\tg.release_year\
+  \ IS NOT NULL\nORDER BY\n\tg.release_year DESC,\n\tg.g_name ASC;"
+test_31: "SELECT \n\tregion.name AS region_name,\n\tr.sales\nFROM\n\tvideos_games.videos_games\
+  \ AS vg\nJOIN\n\tvideos_games.videos_games_region_sales as vgsrs ON vg.id = vgsrs.game_id\n\
+  JOIN\n\tvideos_games.region_sales as r ON vgsrs.region_id = r.id\nJOIN\n\tvideos_games.region\
+  \ AS region ON r.region_id = region.id\nWHERE\n\tvg.genre_id = 7\nGROUP BY\n\tvg.id,\
+  \ region.name\nORDER BY\n\tvg.id ASC, region.name ASC;\n\n"
+test_32: "SELECT region.region_name, year(release_year) AS year\nFROM video_games.region\
+  \ \nLEFT JOIN video_games.game_sales \nON region.id = video_games_sales.region_id\n\
+  WHERE region.region_name = 'North America' \nAND release_year > 2000\nGROUP BY region.region_name,\
+  \ year(release_year)\n\n "
+test_33: "SELECT \n\t\tgp.publisher_id, \n\t\tgp.platform_id, \n\t\tgp.release_year,\
+  \ \n\t\tgp.genre_id, \n\t\tgp.game_name, \n\t\tgp.platform_name, \n\t\tgp.region_name\
+  \ \nFROM video_games.game_publisher gp\nJOIN video_games.game_platform gp_platform\n\
+  ON gp.platform_id = gp_platform.platform_id\nJOIN video_games.game_publisher gp_publisher\n\
+  ON gp_publisher.id = gp.publisher_id\nJOIN video_games.genre gp_genre\nON gp_genre.id\
+  \ = gp.genre_id\nJOIN video_games.region g_region\nON g_region.id = gp.region_id\n\
+  JOIN video_games.region_sales rs\nON rs.region_id = g_region.id\nWHERE gp_publisher.id\
+  \ = 1\nUNION ALL\nSELECT\n\tgp_publisher.id, \n\tgp.publisher_id, \n\tgp.platform_id,\
+  \ \n\tgp.release_year, \n\tgp.genre_id, \n\tgp.game_name, \n\tgp.platform_name,\
+  \ \n\tgp.region"
+test_34: SELECT * FROM video_games.game WHERE genre_id=1
+
+test_35: "SELECT video_games.game.name, video_games.game.name AS genre_name, video_games.game_publisher.publisher_name,
+   video_games.game_platform.platform_name, video_games.game_platform.release_year,
+   video_games.game_platform.platform_id, video_games.game_platform.platform_name
+   AS platform_name, video_games.game_platform.platform_id AS platform_id, video_games.game_platform.release_year
+   AS release_year\nFROM video_games.game WHERE genre_id = 0  AND video_games.game_publisher.publisher_id
+   = 0 AND video_games.game_platform.platform_id IS NOT NULL  GROUP BY video_games.game.name;"
+  
+test_36: select * from video_games where game_publisher_id = ''3DO'';
+test_37: "SELECT \n\tgame_publisher_id,\n\tplatform_id,\n\trelease_year,\n\tgame_name\n\
+  FROM \n\tvideo_games.game\nWHERE \n\trelease_year > 2000\nGROUP BY\n\tgame_publisher_id,\n\
+  \tplatform_id,\n\trelease_year\nORDER BY\n\trelease_year DESC\nLIMIT\n\t1"
+test_38: "SELECT\n\tg.genre_name AS genre_name,\n\tg.genre_id\nFROM\n\tvideo_games.game\
+  \ g\nWHERE\n\tg.genre_id IS NOT NULL AND\n\tg.genre_id = (\n\t\tSELECT\n\t\t\t(SELECT\n\
+  \t\t\t\t(SELECT\n\t\t\t\t\tg2.genre_id\n\t\t\t\t\tFROM\n\t\t\t\t\t\tvideo_games.game\
+  \ g2\n\t\t\t\t\t\tWHERE\n\t\t\t\t\t\tg2.genre_id = g.genre_id\n\t\t\t\t\t\tORDER\
+  \ BY\n\t\t\t\t\t\tg2.release_year DESC\n\t\t\t\t\t\tLIMIT 1\n\t\t\t\t\t)\n\t\t\t\
+  \t+ 1\n\t\t\t)\n\t\t+ 1\n\t)\nORDER BY\n\tg.genre_id DESC\nLIMIT 1;\n\n "
+test_39: "SELECT \n    genre.genre_name\nFROM \n    video_games.genre\nWHERE \n  \
+  \  genre.genre_name = ''RPG''\nORDER BY\n    genre.genre_name DESC\nLIMIT\n    1;\n\
+  \n "
+test_4: SELECT * FROM video_games.game_platform;
+test_40: SELECT game.platform_name AS platf_name, COUNT(game_platform.id) AS num_sales
+
+  FROM video_games.game
+
+  JOIN video_games.game_platform ON video_games.game_platform.game_id = video_games.game.id
+
+  JOIN video_games.game_platform ON video_games.game_platform.platform_id = video_games.game_platform.id
+
+  JOIN video_games.platform ON video_games.platform.platform_name = video_games.platform.platform_name
+
+  GROUP BY platf_name
+
+  HAVING num_sales DESC
+
+  ORDER BY num_sales DESC
+
+  LIMIT 1;
+test_41: "select region_name from video_games.region_sales where region_id = 1 and\
+  \ game_platform_id = 2\nQuery Results: \nid | region_id | game_platform_id | num_sales\n\
+  ----+------------+---------------------+------------\n 1 | 1           | 2     \
+  \               | 0.000000000000000"
+test_42: "SELECT \n    region.name as \u0440\u0435\u0433\u0438\u043E\u043D,\n    COUNT(DISTINCT\
+  \ game_platform.platform_id) as \u043F\u0435\u0440\u0432\u0430\u044F_\u0438\u0433\
+  \u0440\u0430,\n    COUNT(DISTINCT game_platform.platform_id) - COUNT(DISTINCT game_platform.platform_id)\
+  \ as \u043F\u043E\u0441\u043B\u0435\u0434\u043D\u0438\u0435_\u0438\u0433\u0440\u044B\
+  \nFROM \n    video_games.game_platform\n        INNER JOIN \n    video_games.game\n\
+  \        ON \n            video_games.game_platform.game_id = video_games.game.id\n\
+  \        INNER JOIN \n    video_games.region_sales\n        ON \n            video_games.game_platform.region_id\
+  \ = video_games.region_sales.region_id\n        INNER JOIN \n    video_games.region\n\
+  \        ON \n            video_games.region_sales.region_id = video_games.region.id\n\
+  \        INNER JOIN \n    video_games.region_sales\n        ON \n            video_games.region_sales.region_id\
+  \ = video_games.region.id\n        INNER JOIN \n    video_games.region_sales\n \
+  \       ON \n            video_games.region_sales.region_id = video_games.region.id\n\
+  \        INNER JOIN \n    video_games.region"
+test_43: "SELECT \n\tg.genre_name,\n\tcount(g.game_name)\nFROM\n\tvideo_games.game\
+  \ g\nGROUP BY\n\tg.genre_name\nORDER BY\n\tg.genre_name DESC\nLIMIT\n\t1;"
+test_44: SELECT genre.genre_name, COUNT(game.id) AS count
+
+  FROM video_games.game, video_games.genre
+
+  WHERE genre.genre_name = ''Action'' AND game.genre_id = genre.id
+
+  GROUP BY genre.genre_name
+
+  ORDER BY count DESC
+
+  LIMIT 2;
+
+test_45: select region.platform_name as Platform_name, region.region_name as Region_name,
+  game_platform.release_year as Release_year, game_platform.platform_id as Platform_id,
+  game_platform.game_id as Game_id, video_games.game.name as Game_name, video_games.game.publisher.name
+  as Publisher_name, video_games.game_platforms.sales as Sales, video_games.game_platforms.sales
+  as Sales, video_games.platforms_sales.sales as Sales, video_games.region_sales.sales
+  as Sales
+test_46: SELECT region_name
+
+  FROM video_games
+
+  JOIN video_games.region_sales ON video_games.region_sales.region_id = video_games.region_sales.region_id
+
+  GROUP BY region_name
+
+  HAVING num_sales = MAX(num_sales)
+
+  ORDER BY region_name
+
+  LIMIT 10
+test_47: select publisher.name from publisher join game_publisher on publisher.id
+  = game_publisher.publisher_id group by publisher.name
+test_48: "SELECT publisher_name FROM video_games\nGROUP BY publisher_name\nORDER BY\
+  \ publisher_name DESC\nLIMIT 5\nSELECT publisher_name FROM video_games\nWHERE publisher_name\
+  \ IS NOT NULL\nGROUP BY publisher_name\nORDER BY publisher_name DESC\nLIMIT 5\n\n\
+  GROUP BY publisher_name\nORDER BY publisher_name DESC\nLIMIT 5\n\nCREATE TABLE video_games.games\
+  \ (\n\tid int4 GENERATED BY DEFAULT AS IDENTITY( INCREMENT BY 1 MINVALUE 1 MAXVALUE\
+  \ 2147483647 START 1 CACHE 1 NO CYCLE) NOT NULL,\n\tgame_id int4 NULL,\n\tpublisher_id\
+  \ int4 NULL,\n\tplatform_id int4 NULL,\n\trelease_year int4 NULL,\n\tCONSTRAINT\
+  \ games_pkey PRIMARY KEY (id)\n);\n\nCreate Table video_games.platforms (\n\tid\
+  \ int4 GENERATED BY DEFAULT AS IDENTITY( INCREMENT BY 1 MINVALUE 1 MAXVALUE 2147483647\
+  \ START 1 CACHE 1 NO CYCLE) NOT NULL,\n\tplatform_name varchar"
+test_49: "SELECT \n\tp.publisher_name,\n\tp.platform_name,\n\tp.genres\nFROM \n\t\
+  video_games.publisher p\nJOIN \n\tvideo_games.game_publisher gp\nON \n\tp.id = gp.game_id\n\
+  JOIN \n\tvideo_games.genre g\nON \n\tg.id = gp.genre_id\nJOIN \n\tvideo_games.platform\
+  \ p\nON \n\tp.id = gp.platform_id\nJOIN \n\tvideo_games.region r\nON \n\tr.id =\
+  \ gp.region_id\nJOIN \n\tvideo_games.region_sales rs\nON \n\trs.region_id = r.id\n\
+  WHERE \n\tr.region_name = ''\u0420\u043E\u0441\u0441\u0438\u044F''\nGROUP BY \n\t\
+  p.publisher_name,\n\tp.platform_name,\n\tp.genres\nORDER BY \n\tp.publisher_name"
+test_5: "SELECT region.name, COUNT(*) AS num_sales\n\tFROM video_games.region \n\t\
+  \tLEFT JOIN video_games.region_sales \n\t\t\tON region_id = region.id\n\t\tGROUP\
+  \ BY region.name\n\t\tORDER BY region.name;"
+test_50: "SELECT \n    platform_name\nFROM \n    video_games.platform\nGROUP BY\n\
+  \    platform_name\nORDER BY\n    platform_name;"
+test_6: "\u0412\u044B\u0432\u0435\u0434\u0438 \u0432\u0441\u0435 \u0438\u0433\u0440\
+  \u043E\u0432\u044B\u0435 \u0436\u0430\u043D\u0440\u044B, \u043A\u043E\u0442\u043E\
+  \u0440\u044B\u0435 \u043D\u0430\u0447\u0438\u043D\u0430\u044E\u0442\u0441\u044F\
+  \ \u043D\u0430 \u0431\u0443\u043A\u0432\u0443 R\n\n1. \u0412\u044B\u0432\u0435\u0434\
+  \u0438 \u0434\u0430\u043D\u043D\u044B\u0435 \u043E \u0436\u0430\u043D\u0440\u0430\
+  \u0445, \u043A\u043E\u0442\u043E\u0440\u044B\u0435 \u043D\u0430\u0447\u0438\u043D\
+  \u0430\u044E\u0442\u0441\u044F \u043D\u0430 \u0431\u0443\u043A\u0432\u0443 R\nSELECT\
+  \ * FROM video_games.genre WHERE genre_name LIKE ''R'' ORDER BY genre_name;\n\n  genre_id\
+  \ | genre_name |\n----------+------------+\n         1 | Rock |\n         2 | Rhythm\
+  \   |\n         3 | Pop      |\n         4 | Metal   |\n         5 | Hard      |\n\
+  \         6 | Rap      |\n         7 | HipHop   |\n         8 | Punk      |\n  \
+  \       9 | Dub      |\n        10 | EDM      |\n        11 | Trance   |\n     \
+  \   12 | Techno   |\n        13 | Jazz      |\n        14 | Blues      |\n     \
+  \   15 | Country      |\n        16 | Rockabilly      |\n        17 | Punkrock \
+  \     |\n        18 | Heavy Metal      |"
+test_7: "SELECT g.id, g.genre_id, g.game_name, g.release_year, g.platform_id, p.publisher_name,\
+  \ p.platform_name \nFROM video_games.game AS g \nINNER JOIN video_games.genre AS\
+  \ g1 ON g.genre_id = g1.id \nINNER JOIN video_games.platform AS p ON g.platform_id\
+  \ = p.id \nINNER JOIN video_games.publisher AS p1 ON p.publisher_id = p1.id \nWHERE\
+  \ g.genre_id = 7\nAND g.id = 8\nORDER BY g.release_year DESC"
+test_8: "SELECT \n\tg.id,\n\tg.game_name,\n\tg.genre_id,\n\tg.release_year,\n\tg.platform_id,\n\
+  \tg.game_publisher_id,\n\tg.platform_name,\n\tg.platform_release_year,\n\tg.platform_name,\n\
+  \tg.platform_name,\n\tg.platform_release_year,\n\tg.platform_name,\n\tg.platform_release_year,\n\
+  \tg.platform_name,\n\tg.platform_release_year,\n\tg.platform_name,\n\tg.platform_release_year,\n\
+  \tg.platform_name,\n\tg.platform_release_year,\n\tg.platform_name,\n\tg.platform_release_year,\n\
+  \tg.platform_name,\n\tg.platform_release_year,\n\tg.platform_name,\n\tg.platform_release_year,\n\
+  \tg.platform_name,\n\tg.platform_release_year,\n\tg.platform_name,\n\tg.platform_release_year,\n\
+  \tg.platform_name,\n\tg.platform_release_year,\n\tg.platform_name,\n\tg.platform_release_year,\n\
+  \tg.platform_name,\n\tg.platform_release_year,\n\tg.platform_name,\n\tg.platform_release_year,\n\
+  \tg.platform_name,\n\tg.platform_release_year,\n\tg.platform_name,\n\tg.platform_release_year,\n\
+  \tg.platform_name,\n\tg.platform_release_year,\n\tg.platform_name,\n\tg.platform_release"
+test_9: "SELECT COUNT(DISTINCT genre_name) FROM video_games;\n \n\n"
