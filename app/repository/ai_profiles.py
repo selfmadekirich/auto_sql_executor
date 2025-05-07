@@ -7,6 +7,7 @@ from utils.decorators import proccess_tokens, check_logic
 from routers.ai_profile.exceptions import UnsupportedAIModel
 from routers.ai_profile.utils import check_model_is_supported
 
+
 async def get_all_ai_profiles(db: AsyncSession):
     return await AIProfile.list(db)
 

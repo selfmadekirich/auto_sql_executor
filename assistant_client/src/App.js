@@ -11,6 +11,7 @@ import Results from './pages/Results';
 import NotFound from './pages/NotFound';
 import { useEffect, useState } from 'react';
 import { ACCESS_TOKEN } from "./constants"
+import Profiles from './pages/AIProfiles';
 
 
 function Logout(){
@@ -35,7 +36,10 @@ function App() {
                 <Link to="/projects" className="nav-link">Projects</Link>
               </li>
               <li className="nav-item">
-                <Link to="/settings" className="nav-link">Settings</Link>
+                <Link to="/settings" className="nav-link">Connections</Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/profiles" className="nav-link">AI Profiles</Link>
               </li>
             </ul>
           </div>
@@ -53,6 +57,9 @@ function App() {
           }/>
           <Route path="/settings" element={
               <ProtectedRoute><Connections/></ProtectedRoute>
+          }/>
+          <Route path="/profiles" element={
+              <ProtectedRoute><Profiles/></ProtectedRoute>
           }/>
           <Route path="*" element={<NotFound />} />
         </Routes>
