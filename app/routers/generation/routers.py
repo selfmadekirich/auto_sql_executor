@@ -7,6 +7,12 @@ from .models import (
     GenerationInfoInput,
     GenerationResultOutput
 )
+from repository.ai_profiles import get_ai_profiles
+from services.fernet_service import get_fernet
+from routers.ai_profile.models import AIProfileInfoFull
+from .providers.llm_service_provider import LLMServiceProvider
+from fastapi import HTTPException
+
 
 router = APIRouter(prefix="/generate")
 
@@ -43,18 +49,39 @@ async def get_generation_info(
 async def get_generation_result(
     connection_id: UUID,
     d: GenerationInfoInput,
-    db=Depends(get_session)
+    db=Depends(get_session),
+    crypt_service=Depends(get_fernet)
 ):
-    m = SqlGenerationManager(
-        db, connection_id, d
-    )
-    result = await m.execute_generated_query()
-    prompt, gq = m.prompt, m.generated_query
-    return GenerationResultOutput(
-        info=GenerationInfoOutput(
-            user_query=d.user_query,
-            generated_prompt=prompt,
-            generated_sql=gq
-        ).model_dump(),
-        result=result
-    )
+    try:
+
+        profile = AIProfileInfoFull.from_orm(await get_ai_profiles(
+            db, d.profile_id, crypt_service=crypt_service)
+        )
+
+        print(f"profile is: {profile}")
+        m = SqlGenerationManager(
+            db, connection_id,
+            d, LLMServiceProvider(profile),
+            crypt_service
+        )
+
+        print("SQLGEN MANAGER IS INITIALIZED")
+        result = await m.execute_generated_query()
+
+        print("result is generated")
+
+        prompt, gq = m.prompt, m.generated_query
+
+        return GenerationResultOutput(
+            info=GenerationInfoOutput(
+                user_query=d.user_query,
+                generated_prompt=prompt,
+                generated_sql=gq
+            ).model_dump(),
+            result=result
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=404,
+            detail=str(e)
+        )

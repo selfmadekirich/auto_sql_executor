@@ -17,7 +17,7 @@ async def get_all_ai_profiles(db: AsyncSession):
 async def get_ai_profiles(
     db: AsyncSession,
     id: UUID,
-    crypt_service: FernetService = None
+    crypt_service: FernetService
 ):
     res = await AIProfile.get_one(
         db, filters={

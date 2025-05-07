@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel
 
 
@@ -6,5 +7,11 @@ class LaminiInput(BaseModel):
     prompt: str
 
 
-class LaminiOutput(BaseModel):
-    generated: str
+class OpenRouterInput(BaseModel):
+    model_name: str
+    API_KEY: str
+    prompt: str
+
+
+class BasicOutput(BaseModel):
+    generated: Optional[str]

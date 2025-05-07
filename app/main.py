@@ -1,4 +1,5 @@
 import uvicorn
+import logging
 from fastapi import FastAPI
 from settings import get_settings
 from routers.admin.admin import router
@@ -27,6 +28,8 @@ app.include_router(me_router)
 app.include_router(g_router)
 app.include_router(a_router)
 app.include_router(ai_router)
+
+logging.getLogger('sqlalchemy.engine').setLevel(logging.WARNING)
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=setts.APP_PORT, log_level="info")

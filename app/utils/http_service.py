@@ -11,7 +11,7 @@ async def get(url: str, headers: dict):
 async def post(url: str, params: dict, headers: dict):
     async with httpx.AsyncClient() as client:
         return await client.post(
-            url=url, json=params, headers=headers
+            url=url, data=params, headers=headers
         )
 
 

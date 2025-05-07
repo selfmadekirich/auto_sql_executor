@@ -60,7 +60,7 @@ class BaseModel(Base):
     @classmethod
     async def get_one(cls, db: AsyncSession, filters: dict, **kwargs):
         res = await db.execute(select(cls).filter_by(**filters))
-        ins = res.scalar_one_or_none()
+        ins = res.scalar_one()
         return ins
     
     @classmethod

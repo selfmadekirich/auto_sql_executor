@@ -1,8 +1,10 @@
+import uuid
 from pydantic import BaseModel
 
 
 class GenerationInfoInput(BaseModel):
     user_query: str
+    profile_id: uuid.UUID
 
 
 class GenerationInfoOutput(BaseModel):

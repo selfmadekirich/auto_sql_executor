@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     ALGORITHM: str
     ACCESS_TOKEN_EXPIRE_MINUTES: int
     FERNET_CRYPT_KEY: str
+    OPENROUTER_SERVICE_HOST: str
 
     model_config = SettingsConfigDict(env_file=".env")
 
