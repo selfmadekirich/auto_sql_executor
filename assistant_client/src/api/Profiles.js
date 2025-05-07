@@ -29,6 +29,30 @@ const fetchProfiles = async (onSuccess, onFailed) => {
   };
 
 
+  const fetchProfilesPartial = async (onSuccess, onFailed) => {
+    try {
+      const response = await api.get('/profiles', {
+        params: {
+          option: 'Partial'
+        }
+      });
+
+      const recoded_data = []
+      response.data.map(
+        function(item){
+          recoded_data.push({
+            profile_name: item.profile_name,
+            Profile_id: item.id
+          })
+        }
+      )
+      onSuccess(recoded_data);
+    } catch (error) {
+      onFailed(error);
+    }
+  };
+
+
 
 
   const fetchServices = async (onSuccess, onFailed) => {
@@ -84,4 +108,4 @@ const fetchProfiles = async (onSuccess, onFailed) => {
 
 
 export default fetchProfiles;
-export { fetchServices,fetchModels , deleteProfile, createProfile, updateProfile }
+export { fetchServices,fetchModels , deleteProfile, createProfile, updateProfile, fetchProfilesPartial }

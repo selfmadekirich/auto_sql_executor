@@ -1,9 +1,10 @@
 import api from "../api";
 
-const computeResults = async (connectionId, userRequest ,onSuccess, onFailed) => {
+const computeResults = async (connectionId, userRequest, profile_id ,onSuccess, onFailed) => {
     try {
       const response = await api.post(`/generate/${connectionId}/results`, {
-        "user_query": userRequest
+        "user_query": userRequest,
+        "profile_id": profile_id
       });
       
       console.log("WHAT A FUCK")

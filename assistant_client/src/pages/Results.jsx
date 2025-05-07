@@ -5,7 +5,7 @@ import { Container, Row, Col, Form, Button, Table } from 'react-bootstrap';
 import { computeResults } from '../api/Results';
 import { Notifications } from "react-push-notification";
 import { successNotification, errorNotification } from '../utils';
-
+import { fetchProfilesPartial } from '../api/Profiles';
 
 
 
@@ -17,7 +17,8 @@ function Results(){
     const [showTable, setShowTable] = useState(false);
     const [data, setData] = useState([]);
     const [headers, setHeaders] = useState([]);
-
+    const [selectedOption, setSelectedOption] = useState('');
+    const [options, setOptions] = useState([]);
     
     /*
     const sampleData = [
@@ -28,6 +29,19 @@ function Results(){
 
   */
 
+      useEffect(() => {
+        fetchProfilesPartial(setOptions,
+          (error) => {errorNotification(error.message)}
+         )
+         
+      }, []);
+
+      
+
+      const handleSelectChange = (e) => {
+        setSelectedOption(e.target.value);
+      };
+
 
       const handleInputChange = (e) => {
         setInputText(e.target.value);
@@ -36,8 +50,8 @@ function Results(){
   const handleSubmit = async () => {
     
     successNotification("" ,"Начинаем считать")
-
-     await computeResults(connectionId, inputText,
+     console.log(selectedOption)
+     await computeResults(connectionId, inputText, selectedOption,
       (data) => { 
         setData(data); 
         successNotification("","Успешно посчитали!")
@@ -75,6 +89,16 @@ function Results(){
               style={{ backgroundColor: 'white', height: '100%' , border: '0px solid #ced4da' }}>
               Отправить
             </Button>
+            <Form.Select
+                value={selectedOption}
+                onChange={handleSelectChange}
+                style={{ marginRight: '10px' }}
+              >
+                <option value="">Выберете ИИ профиль</option>
+                {options.map(option => (
+                  <option key={option.Profile_id} value={option.Profile_id}>{option.profile_name}</option>
+                ))}
+              </Form.Select>
             </div>
         </div>
           </Col>
