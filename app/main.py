@@ -1,7 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
 from settings import get_settings
-from routers.lamini.router import router
+from routers.llama.router import router
 
 setts = get_settings()
 

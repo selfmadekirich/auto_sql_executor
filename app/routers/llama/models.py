@@ -1,10 +1,10 @@
 from pydantic import BaseModel
 
 
-class LaminiInput(BaseModel):
+class LlamaInput(BaseModel):
     query: str
     prompt: str
 
 
-class LaminiOutput(BaseModel):
+class LlamaOutput(BaseModel):
     generated: str
