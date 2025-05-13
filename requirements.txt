@@ -136,3 +136,4 @@ wsproto==1.2.0
 yarl==1.18.3
 zipp==3.21.0
 langchain-community==0.3.13
+bitsandbytes==0.45.5
