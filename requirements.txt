@@ -27,3 +27,4 @@ pyyaml==6.0.2
 Fernet==1.0.1
 cryptography==44.0.3
 OpenAI==1.77.0
+loguru==0.7.3

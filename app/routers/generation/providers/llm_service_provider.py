@@ -1,5 +1,6 @@
 from routers.ai_profile.models import AIProfileInfoFull, SupportedServices
 from ..exceptions import UnknownAIProfile
+from loguru import logger
 from integrations.llm_service.api import (
     generate_lamini, generate_openrouter, generate_groq
 )
@@ -13,8 +14,8 @@ class LLMServiceProvider:
         self.profile = profile
         self.provider = self.get_provider_func()
 
-        print(f"profile is: {self.profile}")
-        print(f"self provider: {self.provider}")
+        logger.info(f"profile is: {self.profile}")
+        logger.info(f"self provider: {self.provider}")
 
     def get_provider_func(self):
         match self.profile.service:
@@ -24,4 +25,3 @@ class LLMServiceProvider:
 
     async def generate_sql(self, sys_promt: str, user_query: str):
         return await self.provider(sys_promt, user_query, self.profile)
-

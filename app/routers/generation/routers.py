@@ -12,6 +12,7 @@ from services.fernet_service import get_fernet
 from routers.ai_profile.models import AIProfileInfoFull
 from .providers.llm_service_provider import LLMServiceProvider
 from fastapi import HTTPException
+from loguru import logger
 
 
 router = APIRouter(prefix="/generate")
@@ -58,17 +59,16 @@ async def get_generation_result(
             db, d.profile_id, crypt_service=crypt_service)
         )
 
-        print(f"profile is: {profile}")
+        logger.info(f"profile is: {profile}")
         m = SqlGenerationManager(
             db, connection_id,
             d, LLMServiceProvider(profile),
             crypt_service
         )
 
-        print("SQLGEN MANAGER IS INITIALIZED")
         result = await m.execute_generated_query()
 
-        print("result is generated")
+        logger.info("result is generated")
 
         prompt, gq = m.prompt, m.generated_query
 
@@ -81,6 +81,7 @@ async def get_generation_result(
             result=result
         )
     except Exception as e:
+        logger.exception(str(e))
         raise HTTPException(
             status_code=404,
             detail=str(e)

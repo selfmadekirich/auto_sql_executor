@@ -1,9 +1,9 @@
 import json
-from utils.http_service import post
+from utils.http_service import post_json
+from loguru import logger
 from .models import (
     LaminiInput,
-    BasicOutput,
-    OpenRouterInput
+    BasicOutput
 )
 from settings import get_settings
 from routers.ai_profile.models import AIProfileInfoFull
@@ -18,23 +18,25 @@ async def generate_lamini(
 ) -> BasicOutput:
     
     try:
+        logger.info("send request to custom service")
         params = LaminiInput(
             query=user_query,
             prompt=sys_prompt
         )
         host = get_settings().LLM_SERVICE_HOST
         port = get_settings().LLM_SERVICE_PORT
-        result = await post(
-            f"http://{host}:{port}/lamini/predict",
+        result = await post_json(
+            f"http://{host}:{port}/llama/predict",
             params=params.model_dump(),
             headers={
                 "Content-Type": "application/json"
             }
         )
-        print(result.json())
+
+        logger.debug(result.json())
         return BasicOutput(**result.json())
     except Exception as e:
-        print(e)
+        logger.exception(e)
         return None
 
 
@@ -43,7 +45,7 @@ async def generate_openrouter(
         user_query: str,
         profile: AIProfileInfoFull) -> BasicOutput:
     try:
-        print("sending message to openrouter")
+        logger.info("sending message to openrouter")
         client = OpenAI(
             base_url=get_settings().OPENROUTER_SERVICE_HOST,
             api_key=profile.auth_token,
@@ -62,10 +64,10 @@ async def generate_openrouter(
               ]
         )
         result = completion.choices[0].message.content
-        print(f"result:{result}")
+        logger.info(f"result:{result}")
         return BasicOutput(generated=result)
     except Exception as e:
-        print(e)
+        logger.exception(e)
         return None
 
 
@@ -74,7 +76,7 @@ async def generate_groq(
         user_query: str,
         profile: AIProfileInfoFull) -> BasicOutput:
     try:
-        print("sending message to groq")
+        logger.info("sending message to groq")
 
         client = Groq(
               api_key=profile.auth_token,
@@ -104,8 +106,8 @@ async def generate_groq(
         )
         result = completion.choices[0].message.content
         result = json.loads(result)
-        print(f"result:{result}")
+        logger.debug(f"result:{result}")
         return BasicOutput(generated=result.get(*result.keys()))
     except Exception as e:
-        print(e)
+        logger.exception(e)
         return BasicOutput(generated=None)

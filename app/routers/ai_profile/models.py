@@ -17,7 +17,7 @@ class SupportedServices(str, Enum):
 class SupportedModels(list, Enum):
     Groq = ["llama-3.3-70b-versatile", "qwen-qwq-32b"]
     OpenRouter = ["deepseek/deepseek-r1-distill-qwen-32b:free"]
-    Custom = [""]
+    Custom = ["llama3-1b-finetuned"]
 
 
 class AIProfileInfo(BaseModel):

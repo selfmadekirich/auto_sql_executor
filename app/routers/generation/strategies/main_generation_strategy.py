@@ -3,7 +3,8 @@ from ..providers.llm_service_provider import LLMServiceProvider
 from routers.meta_extraction.managers.meta_extractor_manager import (
     MetaExtractorManager
 )
-from sqlalchemy.exc import SQLAlchemyError, OperationalError
+from loguru import logger
+from sqlalchemy.exc import OperationalError
 from ..exceptions import DatabaseUnreachable, GenerationError
 
 
@@ -23,13 +24,13 @@ class MainGenerationStrategy:
     async def execute_generated_sql(self, sys_prompt: str, user_query: str):
         err = None
         n_err = None
-        print("Start generating code")
+        logger.info("Start generating code")
         for i in range(3):
 
             if err:
                 user_query = self.error_prompt.replace("<err>", err)
-            
-            print(f"LLM service is: {self.llm_provider}")
+
+            logger.info(f"LLM service is: {self.llm_provider}")
 
             generated_sql = await self.llm_provider.generate_sql(
                 sys_prompt, user_query
@@ -43,12 +44,12 @@ class MainGenerationStrategy:
                 )
                 n_err = "No connection to service"
                 continue
-            
-            print(f"GENERATED QUERY: {generated_sql}")
+
+            logger.info(f"GENERATED QUERY: {generated_sql}")
             exc_res, err_mes = await self.try_execute(generated_sql)
 
             if not exc_res and not err_mes:
-                logging.exception("Database error occurred!")
+                logger.info("Database error occurred!")
                 raise DatabaseUnreachable()
 
             if exc_res:
@@ -57,13 +58,13 @@ class MainGenerationStrategy:
 
             if err_mes:
                 err = err_mes
-        
+
         if err:
-            logging.exception("Unable to generate")
+            logger.exception("Unable to generate")
             raise GenerationError()
-        
+
         if n_err:
-            logging.exception(n_err)
+            logger.exception(n_err)
             raise GenerationError(n_err)
 
     async def try_execute(self, query: str):
@@ -71,8 +72,8 @@ class MainGenerationStrategy:
             result = self.executor.execute_sql(query)
             return result, None
         except OperationalError as e:
-            logging.exception(e)
+            logger.exception(e)
             return None, None
         except Exception as e:
-            logging.exception(e)
+            logger.exception(e)
             return None, str(e)

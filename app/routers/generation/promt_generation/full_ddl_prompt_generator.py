@@ -1,6 +1,7 @@
 from .promt_generator import IPromptGenerator
 from utils.template_render import render
 from pydantic import BaseModel
+from loguru import logger
 import os
 
 
@@ -23,7 +24,7 @@ class FullDDLPromptGenerator(IPromptGenerator):
         @params: tables_info
         """
         tables_data: list[BaseModel] = kwargs.get("tables_info")
-        print("here")
+        logger.info("start rendering")
         rendered_data = "\n".join(render(
             self.folder,
             self.template_name,

@@ -1,4 +1,5 @@
 import inspect
+from loguru import logger
 from functools import wraps
 
 
@@ -67,7 +68,7 @@ def check_logic(
             func_signature = inspect.signature(func)
             bound_args = func_signature.bind(*args, **kwargs)
             bound_args.apply_defaults()
-            print(bound_args.arguments.keys())
+            logger.debug(bound_args.arguments.keys())
             data = bound_args.arguments.get("data")
 
             check_result = check_function(data)
