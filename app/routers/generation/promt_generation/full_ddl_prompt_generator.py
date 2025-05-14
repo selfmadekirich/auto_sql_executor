@@ -11,7 +11,7 @@ class FullDDLPromptGenerator(IPromptGenerator):
         self.template_name = "create_table.twig"
         self.prefix = """You are helpful assistant
         which generates SQL for PostgresSQL only.You GENERATE ONLY SQL.
-        No other messages required!"""
+        No other messages required! You do not need to GENERATE DDL COMMANDS"""
         self.link = """These are tables structure"""
 
     def _get_templates_dir(self) -> str:

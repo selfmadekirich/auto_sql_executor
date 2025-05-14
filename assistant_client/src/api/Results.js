@@ -7,8 +7,7 @@ const computeResults = async (connectionId, userRequest, profile_id ,onSuccess, 
         "profile_id": profile_id
       });
       
-      console.log("WHAT A FUCK")
-      onSuccess(response.data.result);
+      onSuccess(response.data);
     } catch (error) {
         console.log(error)
         onFailed(error);
@@ -16,4 +15,21 @@ const computeResults = async (connectionId, userRequest, profile_id ,onSuccess, 
     }
   };
 
-export {computeResults}
+
+  const LoadMoreResults = async (connectionId, sqlQuery, page ,onSuccess, onFailed) => {
+    try {
+      const response = await api.post(`/generate/${connectionId}/results/load`, {
+        "sql_query": sqlQuery,
+        "page": page,
+        "size": 10
+      });
+      
+      onSuccess(response.data);
+    } catch (error) {
+        console.log(error)
+        onFailed(error);
+        console.log("Error here")
+    }
+  };
+
+export {computeResults, LoadMoreResults }

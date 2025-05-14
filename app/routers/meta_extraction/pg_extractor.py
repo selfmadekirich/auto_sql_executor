@@ -50,7 +50,9 @@ class PgMetaExtractor(MetaExtractor):
                 r'\sLIMIT\s+\d+', '', raw_sql, flags=re.IGNORECASE
             )
 
-        
+        raw_sql = re.sub(
+                r'\sOFFSET\s+\d+', '', raw_sql, flags=re.IGNORECASE
+            )
         raw_sql = raw_sql.replace(';', '')
 
         paginated_sql = f"{raw_sql} LIMIT {limit} {offset_str}"
