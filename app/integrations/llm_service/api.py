@@ -65,6 +65,7 @@ async def generate_openrouter(
         )
         result = completion.choices[0].message.content
         logger.info(f"result:{result}")
+        result = result.replace('```sql', '').replace('```', '')
         return BasicOutput(generated=result)
     except Exception as e:
         logger.exception(e)

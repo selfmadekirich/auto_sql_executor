@@ -16,8 +16,8 @@ class MetaExtractorManager:
     def extract(self) -> list[TableMetadataInput]:
         return self.extractor.extract_meta()
 
-    def execute_sql(self, raw_sql: str) -> dict:
-        return self.extractor.execute_custom_sql(raw_sql)
+    def execute_sql(self, raw_sql: str, page: int = 1, size: int = 15) -> dict:
+        return self.extractor.execute_custom_sql(raw_sql, page, size)
 
     def _get_extractor(self, db_type: str):
         d = {

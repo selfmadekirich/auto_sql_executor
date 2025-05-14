@@ -5,9 +5,15 @@ from .managers.sql_generation_managers import SqlGenerationManager
 from .models import (
     GenerationInfoOutput,
     GenerationInfoInput,
-    GenerationResultOutput
+    GenerationResultOutput,
+    ResultsLoadInfoInput,
+    ResultsLoadResponse
+)
+from routers.meta_extraction.managers.meta_extractor_manager import (
+    MetaExtractorManager
 )
 from repository.ai_profiles import get_ai_profiles
+from repository.db_settings import get_db_connection
 from services.fernet_service import get_fernet
 from routers.ai_profile.models import AIProfileInfoFull
 from .providers.llm_service_provider import LLMServiceProvider
@@ -79,6 +85,44 @@ async def get_generation_result(
                 generated_sql=gq
             ).model_dump(),
             result=result
+        )
+    except Exception as e:
+        logger.exception(str(e))
+        raise HTTPException(
+            status_code=404,
+            detail=str(e)
+        )
+
+
+@router.post(
+        "/{connection_id}/results/load",
+        response_model=ResultsLoadResponse,
+        tags=["generation"]
+)
+async def get_generation_result_parts(
+    connection_id: UUID,
+    d: ResultsLoadInfoInput,
+    db=Depends(get_session),
+    crypt_service=Depends(get_fernet)
+):
+    try:
+
+        logger.info("start /results/load")
+        conn = await get_db_connection(
+            db,
+            connection_id,
+            crypt_service
+        )
+
+        m = MetaExtractorManager(conn, reflect=False)
+
+        result = m.execute_sql(d.sql_query, page=d.page)
+
+        return ResultsLoadResponse(
+            sql_query=d.sql_query,
+            page=d.page,
+            size=len(result),
+            results=result
         )
     except Exception as e:
         logger.exception(str(e))

@@ -2,8 +2,7 @@ from uuid import UUID
 from repository.tables_metadata import get_all_metadata
 from repository.db_settings import get_db_connection
 
-from integrations.llm_service.api import generate_lamini
-from integrations.llm_service.models import LaminiInput
+
 from ..models import GenerationInfoInput
 from routers.metadata.models import TableMetadataResponse
 from ..providers.llm_service_provider import LLMServiceProvider
