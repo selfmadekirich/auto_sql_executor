@@ -1,3 +1,4 @@
+import re
 from .base_extractor import MetaExtractor
 from .models import MetaExtractorConfig, ExtractorMetaTable
 from ..metadata.models import TableMetadataInput
@@ -25,11 +26,41 @@ class PgMetaExtractor(MetaExtractor):
                 c.db_name
         )
 
-    def execute_custom_sql(self, raw_sql: str) -> dict:
+    def execute_custom_sql(
+        self,
+        raw_sql: str,
+        page: int = 1,
+        size: int = 15
+    ) -> list[dict]:
+        # @TODO: wrap in decorator
+        existing_limit = size
+        offset = (page - 1) * size
+
+        limit_match = re.search(r'\sLIMIT\s+(\d+)', raw_sql, re.IGNORECASE)
+
+        if limit_match:
+            existing_limit = int(limit_match.group(1))
+
+        limit = existing_limit
+        offset_str = f"OFFSET {offset}"
+
+        if existing_limit >= size:
+            limit = size
+            raw_sql = re.sub(
+                r'\sLIMIT\s+\d+', '', raw_sql, flags=re.IGNORECASE
+            )
+
+        raw_sql = re.sub(
+                r'\sOFFSET\s+\d+', '', raw_sql, flags=re.IGNORECASE
+            )
+        raw_sql = raw_sql.replace(';', '')
+
+        paginated_sql = f"{raw_sql} LIMIT {limit} {offset_str}"
+
         with self.engine.connect() as connection:
-            result = connection.execute(text(raw_sql))
-            return [x._asdict() for x in result.fetchall()]
-    
+            result = connection.execute(text(paginated_sql))
+            return [x._asdict() for x in result]
+
     def _row2dict(self, row):
         dict((col, getattr(row, col)) for col in row.__table__.columns.keys())
 

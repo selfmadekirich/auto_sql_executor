@@ -17,5 +17,10 @@ class MetaExtractor(ABC):
         pass
 
     @abstractmethod
-    def execute_custom_sql(self, raw_sql: str) -> list[TableMetadataInput]:
+    def execute_custom_sql(
+        self,
+        raw_sql: str,
+        page: int = 1,
+        size: int = 15
+    ) -> list[TableMetadataInput]:
         pass

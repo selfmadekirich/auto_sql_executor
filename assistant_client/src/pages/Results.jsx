@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Row, Col, Form, Button, Table } from 'react-bootstrap';
-import { computeResults } from '../api/Results';
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { computeResults, LoadMoreResults } from '../api/Results';
 import { Notifications } from "react-push-notification";
 import { successNotification, errorNotification } from '../utils';
 import { fetchProfilesPartial } from '../api/Profiles';
-
+import { InfiniteLoopTable } from '../components/InfiniteLoopTable';
+import Loading from '../components/Loading';
 
 
 function Results(){
@@ -19,6 +20,9 @@ function Results(){
     const [headers, setHeaders] = useState([]);
     const [selectedOption, setSelectedOption] = useState('');
     const [options, setOptions] = useState([]);
+    const [page, setPage] = useState(2)
+    const [sqlQuery, setSqlQuery] = useState('')
+    const [isLoading, setIsLoading] = useState(false);
     
     /*
     const sampleData = [
@@ -48,19 +52,32 @@ function Results(){
       };
 
   const handleSubmit = async () => {
-    
+    setIsLoading(true);
+    setData([])
+    setHeaders([])
     successNotification("" ,"Начинаем считать")
      console.log(selectedOption)
      await computeResults(connectionId, inputText, selectedOption,
       (data) => { 
-        setData(data); 
+        setData(data.result); 
+        console.log(data.result);
+        setSqlQuery(data.info.generated_sql);
         successNotification("","Успешно посчитали!")
         setShowTable(true);
+        setIsLoading(false)
       },
        (error) => { errorNotification(error.message);}
     )
   };
 
+  const fetchMoreData = async () => {
+    await LoadMoreResults(connectionId, sqlQuery, page, (loaded) => {
+      setPage(page + 1);
+      setData(data.concat(loaded.results))
+    }, 
+    (error) => { errorNotification(error.message);}
+    )
+  };
 
   useEffect(() => {
     if (data.length > 0) {
@@ -103,30 +120,14 @@ function Results(){
         </div>
           </Col>
       </Row>
-      {showTable && (
+      { isLoading ? ( <Loading/>) : (
+      showTable && (
         <Row className="mt-5">
           <Col>
-            <Table striped bordered hover>
-              <thead>
-                <tr>
-                  {headers.map(key => (
-                    <th key={key}>{key}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {data.map((row, index) => (
-                  <tr key={index}>
-                    {headers.map(header => (
-                      <td key={header}>{row[header]}</td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
+          <InfiniteLoopTable headers={headers} data={data} update={fetchMoreData}></InfiniteLoopTable>
           </Col>
         </Row>
-      )}
+      ))}
       
       <Notifications position='bottom-left'/>
     </Container>
